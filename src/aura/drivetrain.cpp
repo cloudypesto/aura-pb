@@ -1,4 +1,5 @@
 #include <aura/subsystems.hpp>
+#include <aura/utils.hpp>
 
 namespace subsystems {
     drivetrain::drivetrain(int left_1_port, int left_2_port, int left_3_port, int left_4_port,
@@ -32,6 +33,16 @@ namespace subsystems {
     
 
     void drivetrain::driverFunctions() {
+        int y = Controller.get_analog(ANALOG_LEFT_Y);
+        int x = Controller.get_analog(ANALOG_RIGHT_X);
+
+        int y_output = linearToCubed(y, 127, 1);
+        int x_output = linearToCubed(x, 127, 1);
+        
+        int left_voltage = pctToVoltage(y_output + x_output);
+        int right_voltage = pctToVoltage(y_output - x_output);
+        
+        this->setDriveVoltage(left_voltage, right_voltage);
     }
 
     void drivetrain::setDriveVoltage(double left_voltage, double right_voltage) {

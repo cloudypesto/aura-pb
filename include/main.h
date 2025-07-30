@@ -71,10 +71,10 @@ void opcontrol(void);
 #endif
 
 #ifdef __cplusplus
-/**
- * You can add C++-only headers here
- */
-//#include <iostream>
+#include <cmath>
+#include <iostream>
+#include <aura/devices.hpp>
+#include <aura/subsystems.hpp> 
 #endif
 
 #endif  // _PROS_MAIN_H_

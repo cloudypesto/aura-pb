@@ -75,6 +75,7 @@ void opcontrol(void);
 #include <iostream>
 #include <aura/devices.hpp>
 #include <aura/subsystems.hpp> 
+#include <aura/utils.hpp>
 #endif
 
 #endif  // _PROS_MAIN_H_

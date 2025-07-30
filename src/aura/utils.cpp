@@ -10,3 +10,8 @@ double pctToVoltage(double input)
 {
     return 12000 * (input / 127);
 }
+
+int sign(double num)
+{
+    return (num >= 0) ? 1 : -1;
+}

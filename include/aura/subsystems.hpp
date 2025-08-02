@@ -1,5 +1,5 @@
 #pragma once
-#include <main.h>
+#include "main.h"
 
 namespace subsystems {
 
@@ -17,8 +17,8 @@ namespace subsystems {
         pros::MotorGroup leftDrive = pros::MotorGroup(left_1);
         pros::MotorGroup rightDrive = pros::MotorGroup(right_1);
 
-        pros::ADIEncoder XTrackingEncoder;
-        pros::ADIEncoder YTrackingEncoder; 
+        pros::adi::Encoder XTrackingEncoder;
+        pros::adi::Encoder YTrackingEncoder;
 
         pros::IMU imu_1;
         pros::IMU imu_2;

@@ -73,9 +73,9 @@ void opcontrol(void);
 #ifdef __cplusplus
 #include <cmath>
 #include <iostream>
-#include <aura/devices.hpp>
-#include <aura/subsystems.hpp> 
-#include <aura/utils.hpp>
+#include "aura/devices.hpp"
+#include "aura/subsystems.hpp"
+#include "aura/utils.hpp"
 #endif
 
 #endif  // _PROS_MAIN_H_

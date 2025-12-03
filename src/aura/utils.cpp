@@ -1,5 +1,5 @@
 #include "main.h"
-#include "utils.hpp"
+#include "aura/utils.hpp"
 
 double linearToCubed(double input, double maxInput, double k)
 {

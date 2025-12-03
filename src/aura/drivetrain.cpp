@@ -1,6 +1,8 @@
 #include "aura/subsystems.hpp"
 #include "aura/utils.hpp"
 
+//file containing all of the drive train based functions
+
 namespace subsystems
 {
     drivetrain::drivetrain(int left_1_port, int left_2_port, int left_3_port, int left_4_port,
@@ -8,20 +10,21 @@ namespace subsystems
                            char x_tracking_encoder_top, char x_tracking_encoder_bottom,
                            char y_tracking_encoder_top, char y_tracking_encoder_bottom,
                            int imu_1_port, int imu_2_port)
-        : left_1(pros::Motor(-left_1_port, pros::v5::MotorGear::blue, pros::v5::MotorUnits::degrees)),
+        : left_1(pros::Motor(left_1_port, pros::v5::MotorGear::blue, pros::v5::MotorUnits::degrees)),
           left_2(pros::Motor(left_2_port, pros::v5::MotorGear::blue, pros::v5::MotorUnits::degrees)),
-          left_3(pros::Motor(-left_3_port, pros::v5::MotorGear::blue, pros::v5::MotorUnits::degrees)),
+          left_3(pros::Motor(left_3_port, pros::v5::MotorGear::blue, pros::v5::MotorUnits::degrees)),
           left_4(pros::Motor(left_4_port, pros::v5::MotorGear::blue, pros::v5::MotorUnits::degrees)),
 
           right_1(pros::Motor(right_1_port, pros::v5::MotorGear::blue, pros::v5::MotorUnits::degrees)),
-          right_2(pros::Motor(-right_2_port, pros::v5::MotorGear::blue, pros::v5::MotorUnits::degrees)),
+          right_2(pros::Motor(right_2_port, pros::v5::MotorGear::blue, pros::v5::MotorUnits::degrees)),
           right_3(pros::Motor(right_3_port, pros::v5::MotorGear::blue, pros::v5::MotorUnits::degrees)),
-          right_4(pros::Motor(-right_4_port, pros::v5::MotorGear::blue, pros::v5::MotorUnits::degrees)),
+          right_4(pros::Motor(right_4_port, pros::v5::MotorGear::blue, pros::v5::MotorUnits::degrees)),
           XTrackingEncoder(pros::adi::Encoder(x_tracking_encoder_top, x_tracking_encoder_bottom)),
           YTrackingEncoder(pros::adi::Encoder(y_tracking_encoder_top, y_tracking_encoder_bottom)),
           imu_1(pros::Imu(imu_1_port)),
           imu_2(pros::Imu(imu_2_port))
     {
+        //adds the rest of the motors to the group
         leftDrive.append(left_2);
         leftDrive.append(left_3);
         leftDrive.append(left_4);
@@ -33,14 +36,27 @@ namespace subsystems
 
     void drivetrain::driverFunctions()
     {
-        int y = Controller.get_analog(ANALOG_LEFT_Y);
-        int x = Controller.get_analog(ANALOG_RIGHT_X);
+        // //arcade drive code
+        // int y = Controller.get_analog(ANALOG_LEFT_Y);
+        // int x = Controller.get_analog(ANALOG_RIGHT_X);
 
-        int y_output = linearToCubed(y, 127, 1);
-        int x_output = linearToCubed(x, 127, 1);
+        // int y_output = linearToCubed(y, 127, 1);
+        // int x_output = linearToCubed(x, 127, 1);
 
-        int left_voltage = pctToVoltage(y_output - x_output);
-        int right_voltage = pctToVoltage(y_output + x_output);
+        // int left_voltage = pctToVoltage(y_output - x_output);
+        // int right_voltage = pctToVoltage(y_output + x_output);
+
+        // this->setDriveVoltage(left_voltage, right_voltage);
+
+        //tank drive code
+        int left_input = Controller.get_analog(ANALOG_RIGHT_Y);
+        int right_input = Controller.get_analog(ANALOG_LEFT_Y);
+
+        int left_output = linearToCubed(left_input, 127, 1);
+        int right_output = linearToCubed(right_input, 127, 1);
+
+        int left_voltage = pctToVoltage(left_output);
+        int right_voltage = pctToVoltage(right_output);
 
         this->setDriveVoltage(left_voltage, right_voltage);
     }

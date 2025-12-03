@@ -70,12 +70,24 @@ void opcontrol(void);
 }
 #endif
 
+
+
+//this is were you define any extra header files you have added
+
 #ifdef __cplusplus
-#include <cmath>
-#include <iostream>
-#include "aura/devices.hpp"
-#include "aura/subsystems.hpp"
-#include "aura/utils.hpp"
+/**
+ * You can add C++-only headers here
+ */
+//#include <iostream>
+    #include <cmath>
+    #include <iostream>
+    #include "aura/devices.hpp"
+    #include "aura/subsystems.hpp"
+    #include "aura/utils.hpp"
+
+
+
+
 #endif
 
 #endif  // _PROS_MAIN_H_

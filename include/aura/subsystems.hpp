@@ -1,5 +1,6 @@
 #pragma once
 #include "main.h"
+#include "pros/motors.hpp"
 
 
 /**
@@ -57,12 +58,75 @@ namespace subsystems {
 
         //helpers 
         void setDriveVoltage(double left_voltage, double right_voltage);
+
         void setBrakeMode(pros::motor_brake_mode_e brake_mode);
 
+        
         //auton drive functions?
 
     };
 
+    class intake{
+        //set up the motors
+        pros::Motor intake_top_1;
+        pros::Motor intake_top_2;
+        pros::Motor intake_bottom_1;
+        pros::Motor intake_bottom_2;
+
+        //set up the hood?
+        pros::adi::Pneumatics intake_hood;
+
+        //any like bools and stuff like to change setting like to switch to middle or somthing
+
+        public:
+        //constructor
+        intake(int intake_top_1_port, int intake_top_2, int intake_bottom_1_port, int intake_bottom_2_port, char hood_solanoid_port);
+
+        
+        void setIntakeVoltage(double voltage);
+        
+        void driverFunctions();
+
+        void autoFunctions(double voltage);
+
+        void endAutoTask();
+
+
+    };
+
+    class matchload{
+        pros::adi::Pneumatics matchload_solanoid;
+
+        int matchload_press_count = 0;
+
+        public:
+        //constructor
+        matchload(char matchload_solanoid_port);
+
+        //function to set output
+        void setState(bool matchloadState);
+
+        //function to run during driver control
+        void driverFunctions();
+
+    };
+
+    class descore
+    {
+        pros::adi::Pneumatics descore_solanoid;
+
+        int pressCount = 0;
+
+        public:
+        //Constructor
+        descore(char descore_solanoid_port);
+
+        //Function to set output
+        void setState(bool state);
+
+        //Function to run during driver control
+        void driverFunctions();
+    };
 
 
 

@@ -29,16 +29,41 @@
         #define RIGHT_MOTOR_4 -1
 
     //encoding ports (currently not used)
+        #define X_ENCODER_TOP 'A'
+        #define X_ENCODER_BOTTOM 'B'
+        #define Y_ENCODER_TOP 'C'
+        #define Y_ENCODER_BOTTOM 'D'
+
+    //imu ports
+        #define IMU1 11
+        #define IMU2 20
 
 
 
 //Subsystems Motor ports
 
     //Intake
+    #define INTAKE_TOP_1 6
+    #define INTAKE_TOP_2 5
+    #define INTAKE_BOTTOM_1 16
+    #define INTAKE_BOTTOM_2 14
+
+
 
 
 //Prenumatics ports
+    
+    //Hood
+    #define HOOD 'E'
+
+    //Front roller
+    //I think this has 2?
+
     //Matchload
+    #define MATCHLOAD 'F'
+
+    //Wing
+    #define DESCORE 'H'
 
     //Angleshifter
 

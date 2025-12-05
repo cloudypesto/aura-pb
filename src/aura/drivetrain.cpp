@@ -36,29 +36,43 @@ namespace subsystems
 
     void drivetrain::driverFunctions()
     {
-        // //arcade drive code
+        //just like change out to your perfered control system
+
+        //arcade drive code
+        int y = Controller.get_analog(ANALOG_LEFT_Y);
+        int x = Controller.get_analog(ANALOG_RIGHT_X);
+
+        int y_output = linearToCubed(y, 127, 1);
+        int x_output = linearToCubed(x, 127, 1);
+
+        int left_voltage = pctToVoltage(y_output - x_output);
+        int right_voltage = pctToVoltage(y_output + x_output);
+
+        this->setDriveVoltage(left_voltage, right_voltage);
+
+        //single stick left
         // int y = Controller.get_analog(ANALOG_LEFT_Y);
-        // int x = Controller.get_analog(ANALOG_RIGHT_X);
+        // int x = Controller.get_analog(ANALOG_LEFT_X); 
 
         // int y_output = linearToCubed(y, 127, 1);
         // int x_output = linearToCubed(x, 127, 1);
 
-        // int left_voltage = pctToVoltage(y_output - x_output);
+        // int left_voltage  = pctToVoltage(y_output - x_output);
         // int right_voltage = pctToVoltage(y_output + x_output);
 
         // this->setDriveVoltage(left_voltage, right_voltage);
 
         //tank drive code
-        int left_input = Controller.get_analog(ANALOG_RIGHT_Y);
-        int right_input = Controller.get_analog(ANALOG_LEFT_Y);
+        // int left_input = Controller.get_analog(ANALOG_RIGHT_Y);
+        // int right_input = Controller.get_analog(ANALOG_LEFT_Y);
 
-        int left_output = linearToCubed(left_input, 127, 1);
-        int right_output = linearToCubed(right_input, 127, 1);
+        // int left_output = linearToCubed(left_input, 127, 1);
+        // int right_output = linearToCubed(right_input, 127, 1);
 
-        int left_voltage = pctToVoltage(left_output);
-        int right_voltage = pctToVoltage(right_output);
+        // int left_voltage = pctToVoltage(left_output);
+        // int right_voltage = pctToVoltage(right_output);
 
-        this->setDriveVoltage(left_voltage, right_voltage);
+        // this->setDriveVoltage(left_voltage, right_voltage);
     }
 
     void drivetrain::setDriveVoltage(double left_voltage, double right_voltage)

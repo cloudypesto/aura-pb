@@ -1,5 +1,6 @@
 #pragma once
 #include "main.h"
+#include "pros/adi.hpp"
 #include "pros/motors.hpp"
 
 
@@ -8,10 +9,8 @@
 *   Contains:
 *       - Drive Train
 *       - Intake
-*   
-*   Idk prob will  have:
-*       - outtake angle shifter
-*       - matchload
+*       - Match load
+*       - Descore
 */
 
 
@@ -76,14 +75,39 @@ namespace subsystems {
         //set up the hood?
         pros::adi::Pneumatics intake_hood;
 
+        //used to lift the intake up and down
+        pros::adi::Pneumatics intake_piston_1;
+        pros::adi::Pneumatics intake_piston_2;
+
         //any like bools and stuff like to change setting like to switch to middle or somthing
+        int intake_press_count = 0;
+
+        int hood_press_count = 0;
+
 
         public:
         //constructor
-        intake(int intake_top_1_port, int intake_top_2, int intake_bottom_1_port, int intake_bottom_2_port, char hood_solanoid_port);
+        intake(int intake_top_1_port, 
+                int intake_top_2, 
+                int intake_bottom_1_port, 
+                int intake_bottom_2_port, 
+                char hood_solanoid_port, 
+                char intake_solanoid_1_port, 
+                char intake_solanoid_2_port);
 
+        //combining these into one thing so it sets the sate for all of them
+        // void setIntakeVoltage(double voltage);
+
+        // void setIntakeState(bool intake_state);
+
+        // void setHoodState(bool hood_state);
         
-        void setIntakeVoltage(double voltage);
+        //sets the intake voltage and the states for all the pistons
+        void setIntakeState(double lower_voltage, 
+                            double upper_voltage, 
+                            bool hood_solanoid_state, 
+                            bool intake_solanoid_state);
+
         
         void driverFunctions();
 
@@ -104,7 +128,7 @@ namespace subsystems {
         matchload(char matchload_solanoid_port);
 
         //function to set output
-        void setState(bool matchloadState);
+        void setState(bool matchload_state);
 
         //function to run during driver control
         void driverFunctions();

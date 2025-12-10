@@ -1,5 +1,6 @@
 #include "main.h"
 #include "../include/aura/globals.h"
+#include "aura/subsystems.hpp"
 //create the drive train
 subsystems::drivetrain drivetrain = subsystems::drivetrain
 (   LEFT_MOTOR_1,
@@ -22,11 +23,21 @@ subsystems::drivetrain drivetrain = subsystems::drivetrain
 //create other sub systems
 
 //set up intake
+subsystems::intake intake = subsystems::intake(INTAKE_TOP_1,
+												INTAKE_TOP_2,
+												INTAKE_BOTTOM_1,
+												INTAKE_BOTTOM_1,
+												HOOD,
+												INAKE1,
+											INAKE2);
 
 
 //set up match load
+subsystems::matchload matchload = subsystems::matchload(MATCHLOAD);
 
 //set up descore
+ subsystems::descore descore = subsystems::descore(DESCORE);
+
 
 
 void initialize() {
@@ -61,7 +72,14 @@ void opcontrol() {
 
 	while(true){
 		//run all the driver functions and anything that needs to be constantly running
+		//control drive
 		drivetrain.driverFunctions();
+		//control intake
+		intake.driverFunctions();
+        //matchloader
+        matchload.driverFunctions();
+        //descore
+        descore.driverFunctions();
 
 
 	pros::delay(10);

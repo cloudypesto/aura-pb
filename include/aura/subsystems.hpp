@@ -42,6 +42,9 @@ namespace subsystems {
         pros::IMU imu_2;
 
 
+        bool odomRunning = false;
+
+
         public:
 
         //constructor
@@ -63,16 +66,19 @@ namespace subsystems {
         
         //auton drive functions?
 
+        void stopOdom();
+
+
     };
 
     class intake{
         //set up the motors
         pros::Motor intake_top_1;
-        pros::Motor intake_top_2;
+        pros::Motor redir;
         pros::Motor intake_bottom_1;
         pros::Motor intake_bottom_2;
 
-        //set up the hood?
+        //set up the hood
         pros::adi::Pneumatics intake_hood;
 
         //used to lift the intake up and down
@@ -88,7 +94,7 @@ namespace subsystems {
         public:
         //constructor
         intake(int intake_top_1_port, 
-                int intake_top_2, 
+                int redir_port, 
                 int intake_bottom_1_port, 
                 int intake_bottom_2_port, 
                 char hood_solanoid_port, 
@@ -104,6 +110,7 @@ namespace subsystems {
         
         //sets the intake voltage and the states for all the pistons
         void setIntakeState(double lower_voltage, 
+                            double redir_voltage,
                             double upper_voltage, 
                             bool hood_solanoid_state, 
                             bool intake_solanoid_state);

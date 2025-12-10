@@ -24,7 +24,7 @@ subsystems::drivetrain drivetrain = subsystems::drivetrain
 
 //set up intake
 subsystems::intake intake = subsystems::intake(INTAKE_TOP_1,
-												INTAKE_TOP_2,
+												INTAKE_REDIR,
 												INTAKE_BOTTOM_1,
 												INTAKE_BOTTOM_1,
 												HOOD,

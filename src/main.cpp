@@ -36,7 +36,10 @@ subsystems::intake intake = subsystems::intake(INTAKE_TOP_1,
 subsystems::matchload matchload = subsystems::matchload(MATCHLOAD);
 
 //set up descore
- subsystems::descore descore = subsystems::descore(DESCORE);
+subsystems::descore descore = subsystems::descore(DESCORE);
+
+//set up park
+subsystems::park park = subsystems::park(PARK1,PARK2);
 
 
 
@@ -80,6 +83,8 @@ void opcontrol() {
         matchload.driverFunctions();
         //descore
         descore.driverFunctions();
+		//park
+		park.driverFunctions();
 
 
 	pros::delay(10);

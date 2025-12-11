@@ -11,6 +11,7 @@
 *       - Intake (has the hood and the intake shifter)
 *       - Match Load
 *       - Descore
+*       - Park
 *
 */
 
@@ -96,6 +97,90 @@ namespace subsystems {
             setIntakeState(lower_voltage, redir_voltage, upper_voltage, hood_press_count % 2 != 0, intake_press_count % 2 != 0);
         }
 
+        //alternate intake driver functions:
+        //allow for hood to open and close along with diffrent scoreing modes
+        //allows for easier switching between modes of what needs to spin and what doesn't
+        //low key not sure if it will like work but like i think it should
+
+        // void intake::driverFunctions() {
+        //     //toggles
+        //     hood_press_count   += Controller.get_digital_new_press(DIGITAL_Y);
+        //     intake_press_count += Controller.get_digital_new_press(DIGITAL_B);
+
+        //     bool hoodState = hood_press_count % 2 != 0;
+        //     bool intakeLiftState = intake_press_count % 2 != 0;
+
+        //     //----------------------------------------------------
+        //     //DETERMINE CURRENT MODE
+        //     //----------------------------------------------------
+        //     if (Controller.get_digital(DIGITAL_R1))
+        //         currentMode = SCORE_TALL;
+        //     else if (Controller.get_digital(DIGITAL_R2))
+        //         currentMode = SCORE_MID;
+        //     else if (Controller.get_digital(DIGITAL_L1))
+        //         currentMode = INTAKE_INDEX;
+        //     else if (Controller.get_digital(DIGITAL_L2))
+        //         currentMode = OUTTAKE_LOW;
+        //     else
+        //         currentMode = IDLE;
+
+        //     double lower_voltage = 0;
+        //     double upper_voltage = 0;
+        //     double redir_voltage = 0;
+
+        //     //----------------------------------------------------
+        //     //APPLY MODE LOGIC FROM BUTTON PRESS
+        //     //----------------------------------------------------
+        //     switch(currentMode)
+        //     {
+        //         case INTAKE_INDEX:   // L1
+        //             hoodState = false;          // hood closed
+        //             intakeLiftState = false;    // intake down
+        //             lower_voltage = 12000;      // intake
+        //             redir_voltage = -1200;
+        //             upper_voltage = 12000;      // index up
+        //             break;
+
+        //         case OUTTAKE_LOW:   // L2
+        //             hoodState = false;
+        //             intakeLiftState = true;     // intake lifted
+        //             lower_voltage = -12000;     // eject
+        //             redir_voltage = -1200;
+        //             upper_voltage = -12000;
+        //             break;
+
+        //         case SCORE_TALL:    // R1
+        //             hoodState = true;           // hood OPEN
+        //             intakeLiftState = false;
+        //             lower_voltage = 12000;
+        //             redir_voltage = 12000;
+        //             upper_voltage = 12000;      // strong index
+        //             break;
+
+        //         case SCORE_MID:     // R2
+        //             hoodState = false;          // hood CLOSED
+        //             intakeLiftState = false;
+        //             lower_voltage = 12000;
+        //             redir_voltage = 12000;
+        //             upper_voltage = 12000;
+        //             break;
+
+        //         case IDLE:
+        //         default:
+        //             //everything off
+        //             lower_voltage = 0;
+        //             redir_voltage = 0;
+        //             upper_voltage = 0;
+        //             break;
+        //     }
+
+
+        //     setIntakeState(lower_voltage, redir_voltage, upper_voltage,
+        //                 hoodState, intakeLiftState);
+        // }
+
+
+
         
     
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -148,5 +233,30 @@ namespace subsystems {
             pressCount += Controller.get_digital_new_press(DIGITAL_A);
             setState(pressCount % 2 != 0);
         }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+
+    //park class
+        park::park(char park_1_port, char park_2_port)
+        :   park_1(pros::adi::Pneumatics (park_1_port, false)),
+            park_2(pros::adi::Pneumatics (park_2_port, false))
+        {}
+
+
+        void park::setState(bool state)
+        {
+            park_1.set_value(!state);
+            park_2.set_value(!state);
+        }
+
+        void park::driverFunctions()
+        {
+            press_count += Controller.get_digital_new_press(DIGITAL_X);
+            setState(press_count % 2 != 0);
+        }
+
     
 }

@@ -11,6 +11,7 @@
 *       - Intake
 *       - Match load
 *       - Descore
+*       - Park
 */
 
 
@@ -71,6 +72,15 @@ namespace subsystems {
 
     };
 
+    //used to set the state of the intake
+    enum IntakeMode {
+        IDLE,
+        INTAKE_INDEX,
+        OUTTAKE_LOW,
+        SCORE_TALL,
+        SCORE_MID
+    };
+
     class intake{
         //set up the motors
         pros::Motor intake_top_1;
@@ -90,6 +100,8 @@ namespace subsystems {
 
         int hood_press_count = 0;
 
+        //be able to ge between the modes when diffrent buttons pressed
+        IntakeMode currentMode = IDLE;
 
         public:
         //constructor
@@ -159,6 +171,25 @@ namespace subsystems {
         void driverFunctions();
     };
 
+
+    class park{
+        pros::adi::Pneumatics park_1;
+        pros::adi::Pneumatics park_2;
+
+        int press_count = 0;
+
+        public:
+        //constructor
+        park(char park_1_port, char park_2_port);
+
+        //Function to set output
+        void setState(bool state);
+
+        //Function to run during driver control
+        void driverFunctions();
+
+
+    };
 
 
 }

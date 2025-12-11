@@ -17,6 +17,7 @@ class PID
     public:
     PID(double Kp, double Ki, double Kd, double windupRange, double maxIntegral);
 
+    //setters
     void setKp(double Kp);
     void setKi(double Ki);
     void setKd(double Kd);
@@ -24,6 +25,7 @@ class PID
     void setMaxIntegral(double maxIntegral);
 
 
+    //calculations
     double const getPid(double error);
     double const getPid(double currentPosition, double targetPosition);
 

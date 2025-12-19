@@ -58,20 +58,16 @@
 
 
 
-
 //Prenumatics ports
     
     //Park
-    #define PARK1 'A'
-    #define PARK2 'B'
-
+    #define PARK 'A'
 
     //Matchload
     #define MATCHLOAD 'C'
 
     //Intake
-    #define INAKE1 'D'
-    #define INAKE2 'E'
+    #define INAKE 'D'
 
     //Hood / GATE
     #define HOOD 'F'

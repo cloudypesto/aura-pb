@@ -28,8 +28,7 @@ subsystems::intake intake = subsystems::intake(INTAKE_TOP_1,
 												INTAKE_BOTTOM_1,
 												INTAKE_BOTTOM_1,
 												HOOD,
-												INAKE1,
-											INAKE2);
+												INAKE);
 
 
 //set up match load
@@ -39,7 +38,7 @@ subsystems::matchload matchload = subsystems::matchload(MATCHLOAD);
 subsystems::descore descore = subsystems::descore(DESCORE);
 
 //set up park
-subsystems::park park = subsystems::park(PARK1,PARK2);
+subsystems::park park = subsystems::park(PARK);
 
 
 

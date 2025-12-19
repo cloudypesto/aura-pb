@@ -23,16 +23,14 @@ namespace subsystems {
                     int intake_bottom_1_port, 
                     int intake_bottom_2_port, 
                     char hood_solanoid_port,
-                    char intake_solanoid_1_port,
-                    char intake_solanoid_2_port
+                    char intake_solanoid_port
                 )
             :   intake_top_1(pros::Motor(intake_top_1_port, pros::v5::MotorGearset::blue, pros::v5::MotorEncoderUnits::degrees)),
                 redir(pros::Motor( redir_port, pros::v5::MotorGearset::blue, pros::v5::MotorEncoderUnits::degrees)),
                 intake_bottom_1(pros::Motor(intake_bottom_1_port, pros::v5::MotorGearset::blue, pros::v5::MotorEncoderUnits::degrees)),
                 intake_bottom_2(pros::Motor(intake_bottom_2_port, pros::v5::MotorGearset::blue, pros::v5::MotorEncoderUnits::degrees)),
                 intake_hood((pros::adi::Pneumatics(hood_solanoid_port, false, false))),
-                intake_piston_1((pros::adi::Pneumatics(intake_solanoid_1_port, false, false))),
-                intake_piston_2((pros::adi::Pneumatics(intake_solanoid_2_port, false, false)))
+                intake_solanoid((pros::adi::Pneumatics(intake_solanoid_port, false, false)))
             {
 
 
@@ -49,8 +47,7 @@ namespace subsystems {
 
             //set the positions of the pistons
             intake_hood.set_value(hood_solanoid_state);
-            intake_piston_1.set_value(intake_solanoid_state);
-            intake_piston_2.set_value(intake_solanoid_state);
+            intake_solanoid.set_value(intake_solanoid_state); //uses two pistons
         }
 
         void intake::driverFunctions(){
@@ -240,16 +237,14 @@ namespace subsystems {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 
     //park class
-        park::park(char park_1_port, char park_2_port)
-        :   park_1(pros::adi::Pneumatics (park_1_port, false)),
-            park_2(pros::adi::Pneumatics (park_2_port, false))
+        park::park(char park_solanoid_port )
+        :   park_solanoid(pros::adi::Pneumatics (park_solanoid_port, false))
         {}
 
 
         void park::setState(bool state)
         {
-            park_1.set_value(!state);
-            park_2.set_value(!state);
+            park_solanoid.set_value(!state);
         }
 
         void park::driverFunctions()

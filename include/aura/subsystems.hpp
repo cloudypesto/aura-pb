@@ -92,8 +92,8 @@ namespace subsystems {
         pros::adi::Pneumatics intake_hood;
 
         //used to lift the intake up and down
-        pros::adi::Pneumatics intake_piston_1;
-        pros::adi::Pneumatics intake_piston_2;
+        //uses 2 pistons
+        pros::adi::Pneumatics intake_solanoid;
 
         //any like bools and stuff like to change setting like to switch to middle or somthing
         int intake_press_count = 0;
@@ -110,8 +110,7 @@ namespace subsystems {
                 int intake_bottom_1_port, 
                 int intake_bottom_2_port, 
                 char hood_solanoid_port, 
-                char intake_solanoid_1_port, 
-                char intake_solanoid_2_port);
+                char intake_solanoid_port);
 
         //combining these into one thing so it sets the sate for all of them
         // void setIntakeVoltage(double voltage);
@@ -173,14 +172,13 @@ namespace subsystems {
 
 
     class park{
-        pros::adi::Pneumatics park_1;
-        pros::adi::Pneumatics park_2;
+        pros::adi::Pneumatics park_solanoid;
 
         int press_count = 0;
 
         public:
         //constructor
-        park(char park_1_port, char park_2_port);
+        park(char park_solanoid_port);
 
         //Function to set output
         void setState(bool state);

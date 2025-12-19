@@ -4,6 +4,7 @@
 #include "pros/motors.hpp"
 
 
+
 /**
 *   This is where all the systems controlling the robot live
 *   Contains:
@@ -40,20 +41,31 @@ namespace subsystems {
 
         //set up IMU
         pros::IMU imu_1;
-        pros::IMU imu_2;
+        
 
 
         bool odomRunning = false;
 
 
         public:
+        //allows for getting the motor data for lemlib to use
+        //motor gorup getters
+        pros::MotorGroup& getLeftDrive() { return leftDrive; }
+        pros::MotorGroup& getRightDrive() { return rightDrive; }
+
+        //tracking wheels getters
+        pros::adi::Encoder& getXTrackingEncoder() { return XTrackingEncoder; }
+        pros::adi::Encoder& getYTrackingEncoder() { return YTrackingEncoder; }
+
+        //imu getter
+        pros::IMU& getIMU() { return imu_1; }
 
         //constructor
         drivetrain(int left_1_port, int left_2_port, int left_3_port, int left_4_port,
                     int right_1_port, int right_2_port, int right_3_port, int right_4_port,
                     char x_tracking_encoder_top, char x_tracking_encoder_bottom,
                     char y_tracking_encoder_top, char y_tracking_encoder_bottom,
-                    int imu_1_port, int imu_2_port);
+                    int imu_1_port);
 
 
         //driver functions

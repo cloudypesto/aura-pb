@@ -1,6 +1,11 @@
 #include "main.h"
 #include "../include/aura/globals.h"
 #include "aura/subsystems.hpp"
+
+#include "aura/lemlib.hpp"
+
+
+
 //create the drive train
 subsystems::drivetrain drivetrain = subsystems::drivetrain
 (   LEFT_MOTOR_1,
@@ -15,8 +20,7 @@ subsystems::drivetrain drivetrain = subsystems::drivetrain
 	'B',
 	'C',
 	'D', 
-	IMU1,
-	IMU2
+	IMU1
 );
 
 
@@ -44,16 +48,14 @@ subsystems::park park = subsystems::park(PARK);
 
 void initialize() {
 	pros::lcd::initialize();
-	pros::lcd::set_text(1, "your mom!");
 
+    drivetrain.getIMU().reset();
+    while (drivetrain.getIMU().is_calibrating()) {
+        pros::delay(10);
+    }
 
-	//calabrate the imu when starting the program
-	pros::IMU imu1 = pros::IMU(IMU1);
-	pros::IMU imu2 = pros::IMU(IMU2);
-
-	
-    imu1.reset();
-	imu2.reset();
+    chassis.calibrate();
+    chassis.setPose(0, 0, 0);
 }
 
 void disabled() {}
@@ -63,6 +65,11 @@ void competition_initialize() {}
 
 
 void autonomous() {
+	chassis.setPose(0, 0, 0);
+
+    //chassis.moveToPoint(24, 0, 2000);
+    chassis.turnToHeading(90, 1000, {.maxSpeed = 40});
+    //chassis.moveToPoint(24, 24, 2000);
 	
 }
 

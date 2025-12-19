@@ -44,7 +44,7 @@
 
     //imu ports
         #define IMU1 11
-        #define IMU2 20
+    //    #define IMU2 20
 
 
 

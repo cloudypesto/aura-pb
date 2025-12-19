@@ -9,7 +9,7 @@ namespace subsystems
                            int right_1_port, int right_2_port, int right_3_port, int right_4_port,
                            char x_tracking_encoder_top, char x_tracking_encoder_bottom,
                            char y_tracking_encoder_top, char y_tracking_encoder_bottom,
-                           int imu_1_port, int imu_2_port)
+                           int imu_1_port)
         : left_1(pros::Motor(left_1_port, pros::v5::MotorGear::blue, pros::v5::MotorUnits::degrees)),
           left_2(pros::Motor(left_2_port, pros::v5::MotorGear::blue, pros::v5::MotorUnits::degrees)),
           left_3(pros::Motor(left_3_port, pros::v5::MotorGear::blue, pros::v5::MotorUnits::degrees)),
@@ -21,8 +21,7 @@ namespace subsystems
           right_4(pros::Motor(right_4_port, pros::v5::MotorGear::blue, pros::v5::MotorUnits::degrees)),
           XTrackingEncoder(pros::adi::Encoder(x_tracking_encoder_top, x_tracking_encoder_bottom)),
           YTrackingEncoder(pros::adi::Encoder(y_tracking_encoder_top, y_tracking_encoder_bottom)),
-          imu_1(pros::Imu(imu_1_port)),
-          imu_2(pros::Imu(imu_2_port))
+          imu_1(pros::Imu(imu_1_port))
     {
         //adds the rest of the motors to the group
         leftDrive.append(left_2);

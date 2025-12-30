@@ -141,9 +141,8 @@ ASSET(examplekillme_txt);
 void autonomous() {
 	chassis.setPose(0, 0, 0);
 
-	//chassis.turnToHeading(90, 10000, {.maxSpeed = 40});
+	chassis.turnToHeading(90, 10000, {.maxSpeed = 40});
 
-	chassis.follow(examplekillme_txt, 15, 3000);
 }
 
 

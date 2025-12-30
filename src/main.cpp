@@ -49,14 +49,13 @@ subsystems::park park = subsystems::park(PARK);
 void initialize() {
 	pros::lcd::initialize();
 
-    //drivetrain.getIMU().reset();
-	chassis.calibrate();
-    chassis.setPose(0, 0, 0);
-
-	//forces you to wait for the drive imu to be calabrated before driving is possible
+    drivetrain.getIMU().reset();
     while (drivetrain.getIMU().is_calibrating()) {
         pros::delay(10);
     }
+
+    chassis.calibrate();
+    chassis.setPose(0, 0, 0);
 
     
 }
@@ -134,13 +133,17 @@ void competition_initialize() {}
 //how far ahead the robot will look ahead to compute the path in inches
 //time out how long is it allowed to run
 //all the extra prams same as the others
+//uses _ rather then .
 //chassis.follow(pathlearning_jerryio_txt, 10, 1000);
 
+ASSET(examplekillme_txt);
 
 void autonomous() {
 	chassis.setPose(0, 0, 0);
 
-	chassis.turnToHeading(90, 1000, {.maxSpeed = 40});
+	//chassis.turnToHeading(90, 10000, {.maxSpeed = 40});
+
+	chassis.follow(examplekillme_txt, 15, 3000);
 }
 
 

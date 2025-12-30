@@ -15,13 +15,18 @@
 
 //Drive Train
     #define DRIVE_WHEEL_DIAMETER 3.25
-    //#define TRACKING_WHEEL_DIAMETER 3.25
     #define DRIVE_GEAR_RATIO 0.75
-    //#define TRACKING_GEAR_RATIO 1
 
     //Track width
     //distance between left and right wheel centers, meters (calibrate)
     #define TRACKWIDTH 10.5
+
+    #define TRACKING_WHEEL_DIAMETER 3.25
+
+    #define HORIZONTAL_OFFSET 0.0
+    #define VERTICAL_OFFSET 0.0
+
+
 
     //Motor ports
     //left
@@ -43,8 +48,7 @@
         // #define Y_ENCODER_BOTTOM 'D'
 
     //imu ports
-        #define IMU1 11
-    //    #define IMU2 20
+        #define IMU1 20
 
 
 

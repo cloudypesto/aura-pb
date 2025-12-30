@@ -9,33 +9,42 @@ extern subsystems::drivetrain drivetrain;
 //set up the tracking wheels
 lemlib::TrackingWheel verticalWheel(
     &drivetrain.getYTrackingEncoder(),
-    lemlib::Omniwheel::NEW_2,
-    0.0
+    TRACKING_WHEEL_DIAMETER,
+    VERTICAL_OFFSET
 );
-
 lemlib::TrackingWheel horizontalWheel(
     &drivetrain.getXTrackingEncoder(),
-    lemlib::Omniwheel::NEW_2,
-    0.0
+    TRACKING_WHEEL_DIAMETER, 
+    HORIZONTAL_OFFSET
 );
 
 //apply our drive train to lemlib
 lemlib::Drivetrain drivetrainConfig {
     &drivetrain.getLeftDrive(),
     &drivetrain.getRightDrive(),
-    11.5,        // track width (in)
-    3.25,     // wheel diameter (in)
+    TRACKWIDTH,        
+    DRIVE_WHEEL_DIAMETER,
     450,                // RPM
-    2       // chase power (start with 2)
+    0      // chase power (start with 2)
 };
 
 
 //set up the odom sensors we currently have
+//on the bot i have rn we have no odom pods so setting them to null pointer
+
+
 lemlib::OdomSensors sensors {
-    &verticalWheel,
-    nullptr,                //second vertical wheel (unused)
-    &horizontalWheel,
-    nullptr,              //second horizontal wheel (unused)
+    // &verticalWheel,
+    // nullptr,                //second vertical wheel
+    // &horizontalWheel,
+    // nullptr,              //second horizontal wheel
+    // &drivetrain.getIMU()  
+
+    //set to null pointer untill the odom is actually added
+    nullptr,
+    nullptr,               
+    nullptr,
+    nullptr,              
     &drivetrain.getIMU()          //IMU
 };
 
@@ -44,26 +53,26 @@ lemlib::OdomSensors sensors {
 lemlib::ControllerSettings linearController {
     10,   // kP
     0,    // kI
-    30,   // kD
+    3,   // kD
     3,    // anti-windup
     1,    // small error
     100,  // small timeout
     3,    // large error
     500,  // large timeout
-    0     // slew (0 = disabled)
+    20     //
 };
 
 //Angular
 lemlib::ControllerSettings angularController {
-    8,
-    0,
-    45,
-    3,
-    1,
-    100,
-    3,
-    500,
-    0
+    2, // proportional gain (kP)
+    0, // integral gain (kI)
+    0, // derivative gain (kD)
+    0, // anti windup
+    1.5, // small error range, in inches
+    150, // small error range timeout, in milliseconds
+    6, // large error range, in inches
+    500, // large error range timeout, in milliseconds
+    0 // maximum acceleration (slew)
 };
 
 

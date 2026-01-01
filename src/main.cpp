@@ -57,6 +57,16 @@ void initialize() {
     chassis.calibrate();
     chassis.setPose(0, 0, 0);
 
+	pros::Task screen_task([&]() {
+        while (true) {
+            // print robot location to the brain screen
+            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            // delay to save resources
+            pros::delay(20);
+        }
+    });
     
 }
 
@@ -136,13 +146,21 @@ void competition_initialize() {}
 //uses _ rather then .
 //chassis.follow(pathlearning_jerryio_txt, 10, 1000);
 
+//async – whether the function should be run asynchronously. true by default
+
 ASSET(examplekillme_txt);
+
+//Make like these to have diff autos to swap through
+void testauto(){
+	chassis.turnToHeading(90, 40000, {.maxSpeed = 40},false);
+
+}
 
 void autonomous() {
 	chassis.setPose(0, 0, 0);
 
-	chassis.turnToHeading(90, 10000, {.maxSpeed = 40});
-
+	testauto();
+	//chassis.swingToHeading(90, lemlib::DriveSide::LEFT, 5000, {.maxSpeed = 100});
 }
 
 
@@ -166,8 +184,7 @@ void opcontrol() {
 
         double heading = chassis.getPose().theta;
 
-        pros::lcd::set_text(1, "Heading: " + std::to_string(heading));
-
+        
 
 	pros::delay(10);
 	}

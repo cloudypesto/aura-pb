@@ -1,0 +1,8 @@
+CompileFlags:
+  Add:
+    - --target=arm-none-eabi
+    - --gcc-toolchain=C:/Users/alist/AppData/Roaming/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-windows/usr
+    - --sysroot=C:/Users/alist/AppData/Roaming/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-windows/usr/arm-none-eabi
+    - --std=gnu++20
+  Remove:
+    - --std=gnu++23

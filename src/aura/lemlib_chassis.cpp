@@ -24,8 +24,8 @@ lemlib::Drivetrain drivetrainConfig {
     &drivetrain.getRightDrive(),
     TRACKWIDTH,        
     DRIVE_WHEEL_DIAMETER,
-    450,                // RPM
-    0      // chase power (start with 2)
+    450,                
+    8 //horizontalDrift is 2. If we had traction wheels, it would have been 8
 };
 
 
@@ -64,15 +64,15 @@ lemlib::ControllerSettings linearController {
 
 //Angular
 lemlib::ControllerSettings angularController {
-    0.2, // proportional gain (kP)
-    0, // integral gain (kI)
-    6, // derivative gain (kD)
-    0, // anti windup
+    5, // proportional gain (kP)
+    2, // integral gain (kI)
+    50, // derivative gain (kD)
+    3, // anti windup
     1, // small error range, in inches
-    150, // small error range timeout, in milliseconds
-    6, // large error range, in inches
+    100, // small error range timeout, in milliseconds
+    2, // large error range, in inches
     500, // large error range timeout, in milliseconds
-    10 // maximum acceleration (slew)
+    0 // maximum acceleration (slew)
 };
 
 

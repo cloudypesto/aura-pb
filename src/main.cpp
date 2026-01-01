@@ -1,8 +1,12 @@
 #include "main.h"
 #include "../include/aura/globals.h"
+#include "aura/devices.hpp"
 #include "aura/subsystems.hpp"
 
 #include "aura/lemlib.hpp"
+#include "lemlib/asset.hpp"
+#include "pros/misc.h"
+#include "pros/rtos.hpp"
 
 
 
@@ -96,6 +100,16 @@ void competition_initialize() {}
 //chassis.moveToPose(10, 7, 60, 1000);
 
 
+//use the lead to allow the use of the boomerang controler
+//chassis.moveToPose(
+//     0, // x = 0
+//     0, // y = 0
+//     0, // theta = 0
+//     4000, // timeout of 4000ms
+//     {.lead = 0.3, .horizontalDrift = 8}
+// );
+
+
 //////////////////////////////////////////////////////////////////////////////////
 //Angular
 
@@ -148,11 +162,18 @@ void competition_initialize() {}
 
 //async – whether the function should be run asynchronously. true by default
 
+//set the path as an asset so it can be used
 ASSET(examplekillme_txt);
+ASSET(hehehe_txt);
+
 
 //Make like these to have diff autos to swap through
 void testauto(){
-	chassis.turnToHeading(90, 40000, {.maxSpeed = 40},false);
+	//chassis.follow(hehehe_txt, 16, 4000);
+	//chassis.turnToHeading(90, 40000, {.maxSpeed = 40},false);
+	//chassis.moveToPose(800, 60, 10, 10000,{ .horizontalDrift = 2, .lead = 1, .maxSpeed = 40});
+	chassis.moveToPoint(100, 0, 4000,{ .maxSpeed = 40});
+	pros::delay(450);
 
 }
 
@@ -182,8 +203,11 @@ void opcontrol() {
 		//park
 		park.driverFunctions();
 
-        double heading = chassis.getPose().theta;
-
+        
+		//run auto lol
+		if(Controller.get_digital(DIGITAL_X)){
+			autonomous();
+		}
         
 
 	pros::delay(10);

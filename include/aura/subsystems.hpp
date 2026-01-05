@@ -2,6 +2,7 @@
 #include "main.h"
 #include "pros/adi.hpp"
 #include "pros/motors.hpp"
+#include "globals.h"
 
 
 
@@ -77,10 +78,12 @@ namespace subsystems {
         void setBrakeMode(pros::motor_brake_mode_e brake_mode);
 
         
-        //auton drive functions?
 
-        void stopOdom();
-
+        //Movement helper functions for autonomous
+        //temp functions casue like we need to be able to go stright for now
+        void moveDistance(double inches, double speed, int timeout);
+        
+        
 
     };
 

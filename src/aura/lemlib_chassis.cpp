@@ -25,7 +25,8 @@ lemlib::Drivetrain drivetrainConfig {
     TRACKWIDTH,        
     DRIVE_WHEEL_DIAMETER,
     450,                
-    8 //horizontalDrift is 2. If we had traction wheels, it would have been 8
+    2 //horizontalDrift is 2
+    //traction wheels horizontalDrift would be 8
 };
 
 
@@ -43,7 +44,7 @@ lemlib::OdomSensors sensors {
     //set to null pointer untill the odom is actually added
     nullptr,
     nullptr,               
-    nullptr,
+    &horizontalWheel,
     nullptr,              
     &drivetrain.getIMU()          //IMU
 };

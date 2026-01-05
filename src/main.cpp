@@ -5,7 +5,9 @@
 
 #include "aura/lemlib.hpp"
 #include "lemlib/asset.hpp"
+#include "liblvgl/llemu.hpp"
 #include "pros/misc.h"
+#include "pros/misc.hpp"
 #include "pros/rtos.hpp"
 
 
@@ -55,20 +57,27 @@ void initialize() {
 
     drivetrain.getIMU().reset();
     while (drivetrain.getIMU().is_calibrating()) {
-        pros::delay(10);
+		pros::lcd::print(4,"IMU is calibrating drive is locked out");
+		Controller.set_text(0, 0, "IMU calibrating...");
+		//has to wait 50 to be able to change the text again
+        pros::delay(50);
     }
-
-    chassis.calibrate();
+	//get rid of text
+	pros::lcd::clear_line(4);
+	Controller.clear_line(0);
+	
+    chassis.calibrate(true);
     chassis.setPose(0, 0, 0);
 
 	pros::Task screen_task([&]() {
         while (true) {
-            // print robot location to the brain screen
+            //print robot location to the brain screen
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-            // delay to save resources
-            pros::delay(20);
+			Controller.print(0, 0, "headding: %.2f", chassis.getPose().theta);
+            //delay to save resources
+            pros::delay(200);
         }
     });
     
@@ -85,6 +94,17 @@ void competition_initialize() {}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 //Linear
+
+//ONLY WORK WITH TRACKING WHEELS!!!!!!!!!!!!
+//min we need a horrzontal
+
+//current my linear without any special 
+//drive train function moveDistance
+//drivetrain.moveDistance(-20, 20, 2000);
+//takes a distance in inches
+//takes a speed
+//takes a time its allowed to do it in
+
 
 //moveToPoint
 //takes in x cord in inches, 
@@ -169,16 +189,32 @@ ASSET(hehehe_txt);
 
 //Make like these to have diff autos to swap through
 void testauto(){
-	//chassis.follow(hehehe_txt, 16, 4000);
+	chassis.setPose(0, 0, 0);
+	//chassis.follow(hehehe_txt, 20, 4000);
 	//chassis.turnToHeading(90, 40000, {.maxSpeed = 40},false);
-	//chassis.moveToPose(800, 60, 10, 10000,{ .horizontalDrift = 2, .lead = 1, .maxSpeed = 40});
-	chassis.moveToPoint(100, 0, 4000,{ .maxSpeed = 40});
-	pros::delay(450);
+	//chassis.moveToPose(17, 0, 1, 2000,{ .horizontalDrift = 2, .lead = 1, .maxSpeed = 40});
+	//chassis.moveToPoint(0, 0, 4000,{ .maxSpeed = 40});
+	//pros::delay(450);
+	//chassis.moveToPoint(24, 0, 3000, {.maxSpeed = 40});
+
+	//current go straight
+	drivetrain.moveDistance(10, 70, 1000);
+    pros::delay(200);
+
+	//chassis.swingToHeading(90, lemlib::DriveSide::LEFT ,1000, {.maxSpeed = 40},true);
+	drivetrain.moveDistance(-10, 70, 1000);
+    pros::delay(200);
+
+	// drivetrain.moveDistance(12, 20, 2000);
+	// pros::delay(200);
+
+	
+    
 
 }
 
 void autonomous() {
-	chassis.setPose(0, 0, 0);
+	//chassis.setPose(0, 0, 0);
 
 	testauto();
 	//chassis.swingToHeading(90, lemlib::DriveSide::LEFT, 5000, {.maxSpeed = 100});

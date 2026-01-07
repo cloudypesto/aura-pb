@@ -225,6 +225,7 @@ void opcontrol() {
 
 	//end anything being used in auton
 	drivetrain.setBrakeMode(MOTOR_BRAKE_COAST);
+	intake.stopAuto();
 
 	while(true){
 		//run all the driver functions and anything that needs to be constantly running

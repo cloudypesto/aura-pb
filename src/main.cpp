@@ -52,8 +52,63 @@ subsystems::park park = subsystems::park(PARK);
 
 
 
+//auton selector stuff
+
+enum class Auton {
+    NONE,
+    TEST,
+    LEFT_RUSH,
+    RIGHT_RUSH,
+    SKILLS
+};
+
+Auton selected_auton = Auton::NONE;
+
+const char* auton_names[] = {
+    "NONE",
+    "TEST AUTO",
+    "LEFT RUSH",
+    "RIGHT RUSH",
+    "SKILLS"
+};
+
+constexpr int AUTON_COUNT = 5;
+int auton_index = 0;
+
+
+void on_left_button() {
+    auton_index--;
+    if (auton_index < 0) auton_index = AUTON_COUNT - 1;
+
+    pros::lcd::print(5, "Selected: %s", auton_names[auton_index]);
+}
+
+void on_right_button() {
+    auton_index++;
+    if (auton_index >= AUTON_COUNT) auton_index = 0;
+
+    pros::lcd::print(5, "Selected: %s", auton_names[auton_index]);
+}
+
+void on_center_button() {
+    selected_auton = static_cast<Auton>(auton_index);
+    pros::lcd::print(6, "CONFIRMED");
+}
+
 void initialize() {
 	pros::lcd::initialize();
+
+	pros::lcd::set_text(3, "== AUTON SELECTOR ==");
+    pros::lcd::set_text(4, "<  Prev | Select | Next  >");
+    pros::lcd::print(5, "Selected: %s", auton_names[auton_index]);
+
+    pros::lcd::register_btn0_cb(on_left_button);
+    pros::lcd::register_btn1_cb(on_center_button);
+    pros::lcd::register_btn2_cb(on_right_button);
+
+    pros::lcd::print(5, "Selected: %s", auton_names[auton_index]);
+
+	
 
     drivetrain.getIMU().reset();
     while (drivetrain.getIMU().is_calibrating()) {
@@ -75,7 +130,7 @@ void initialize() {
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-			Controller.print(0, 0, "headding: %.2f", chassis.getPose().theta);
+			Controller.print(0, 0, "Selected: %s", auton_names[auton_index]);
             //delay to save resources
             pros::delay(200);
         }
@@ -213,11 +268,46 @@ void testauto(){
 
 }
 
-void autonomous() {
-	//chassis.setPose(0, 0, 0);
+void leftRushAuto() {
+    chassis.setPose(0, 0, 0);
+    drivetrain.moveDistance(24, 80, 2000);
+}
 
-	testauto();
-	//chassis.swingToHeading(90, lemlib::DriveSide::LEFT, 5000, {.maxSpeed = 100});
+void rightRushAuto() {
+    chassis.setPose(0, 0, 0);
+    drivetrain.moveDistance(24, 80, 2000);
+    chassis.turnToHeading(90, 1000);
+}
+
+void skillsAuto() {
+    chassis.setPose(0, 0, 0);
+    chassis.follow(hehehe_txt, 15, 6000);
+}
+
+void autonomous() {
+    pros::lcd::print(7, "Running: %s", auton_names[auton_index]);
+
+    switch (selected_auton) {
+        case Auton::TEST:
+            testauto();
+            break;
+
+        case Auton::LEFT_RUSH:
+            leftRushAuto();
+            break;
+
+        case Auton::RIGHT_RUSH:
+            rightRushAuto();
+            break;
+
+        case Auton::SKILLS:
+            skillsAuto();
+            break;
+
+        default:
+            pros::lcd::print(7, "NO AUTON SELECTED");
+            break;
+    }
 }
 
 

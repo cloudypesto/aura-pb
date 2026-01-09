@@ -52,6 +52,87 @@ subsystems::park park = subsystems::park(PARK);
 
 
 
+//auton selector stuff
+
+enum class Auton {
+    NONE,
+    TEST,
+    LEFT_RUSH,
+    RIGHT_RUSH,
+    SKILLS
+};
+
+//set the default auton to the test one
+Auton selected_auton = Auton::TEST;
+
+
+//add any extra autons you want here
+const char* auton_names[] = {
+    "NONE",
+    "TEST AUTO",
+    "LEFT RUSH",
+    "RIGHT RUSH",
+    "SKILLS"
+};
+
+//the auton count needs to be expanded to add any more
+constexpr int AUTON_COUNT = 5;
+//set the starting index
+int auton_index = 1;
+
+/**
+    go back to the previous auton
+*/
+void on_left_button() {
+    auton_index--;
+    if (auton_index < 0) auton_index = AUTON_COUNT - 1;
+
+    pros::lcd::print(5, "Selected: %s", auton_names[auton_index]);
+}
+
+/**
+    Go do the next auton in the list
+*/
+void on_right_button() {
+    auton_index++;
+    if (auton_index >= AUTON_COUNT) auton_index = 0;
+
+    pros::lcd::print(5, "Selected: %s", auton_names[auton_index]);
+}
+
+/**
+    print to the controler screen
+*/
+void print_confirmed_auton_controller() {
+    int confirmed_index = static_cast<int>(selected_auton);
+    
+
+
+    
+    Controller.print(
+        0,
+        0,
+        "%-15s",
+        ("Auton: " + std::string(auton_names[confirmed_index])).c_str()
+    );
+}
+
+/**
+    confirm which auton is selected
+*/
+void on_center_button() {
+    selected_auton = static_cast<Auton>(auton_index);
+    pros::lcd::print(
+        6,
+        "CONFIRMED: %s",
+        auton_names[auton_index]
+    );
+
+    print_confirmed_auton_controller();
+}
+
+
+
 void initialize() {
 	pros::lcd::initialize();
 
@@ -62,9 +143,25 @@ void initialize() {
 		//has to wait 50 to be able to change the text again
         pros::delay(50);
     }
-	//get rid of text
+    //get rid of text
 	pros::lcd::clear_line(4);
 	Controller.clear_line(0);
+
+
+
+	pros::lcd::set_text(3, "==      AUTON SELECTOR     ==");
+    pros::lcd::set_text(7, "<    Prev |     Select       | Next>");
+    pros::lcd::print(5, "Selected: %s", auton_names[auton_index]);
+
+    pros::lcd::register_btn0_cb(on_left_button);
+    pros::lcd::register_btn1_cb(on_center_button);
+    pros::lcd::register_btn2_cb(on_right_button);
+
+    pros::lcd::print(5, "Selected: %s", auton_names[auton_index]);
+
+	
+
+    
 	
     chassis.calibrate(true);
     chassis.setPose(0, 0, 0);
@@ -75,7 +172,6 @@ void initialize() {
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-			Controller.print(0, 0, "headding: %.2f", chassis.getPose().theta);
             //delay to save resources
             pros::delay(200);
         }
@@ -206,18 +302,54 @@ void testauto(){
     pros::delay(200);
 
 	// drivetrain.moveDistance(12, 20, 2000);
-	// pros::delay(200);
-
-	
-    
+	// pros::delay(200);    
 
 }
 
-void autonomous() {
-	//chassis.setPose(0, 0, 0);
+void leftRushAuto() {
+    chassis.setPose(0, 0, 0);
+    drivetrain.moveDistance(24, 80, 2000);
+}
 
-	testauto();
-	//chassis.swingToHeading(90, lemlib::DriveSide::LEFT, 5000, {.maxSpeed = 100});
+void rightRushAuto() {
+    chassis.setPose(0, 0, 0);
+    drivetrain.moveDistance(24, 80, 2000);
+    chassis.turnToHeading(90, 1000);
+}
+
+void skillsAuto() {
+    chassis.setPose(0, 0, 0);
+    chassis.follow(hehehe_txt, 15, 6000);
+}
+
+void autonomous() {
+    pros::lcd::print(7, "Running: %s", auton_names[auton_index]);
+
+    switch (selected_auton) {
+        case Auton::TEST:
+            testauto();
+            break;
+
+        case Auton::LEFT_RUSH:
+            leftRushAuto();
+            break;
+
+        case Auton::RIGHT_RUSH:
+            rightRushAuto();
+            break;
+
+        case Auton::SKILLS:
+            skillsAuto();
+            break;
+
+        default:
+            pros::lcd::print(7, "NO AUTON SELECTED");
+            break;
+    }
+    
+	pros::lcd::clear_line(7);
+	
+
 }
 
 
@@ -225,6 +357,7 @@ void opcontrol() {
 
 	//end anything being used in auton
 	drivetrain.setBrakeMode(MOTOR_BRAKE_COAST);
+	intake.stopAuto();
 
 	while(true){
 		//run all the driver functions and anything that needs to be constantly running

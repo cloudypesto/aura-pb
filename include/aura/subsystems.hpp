@@ -144,9 +144,16 @@ namespace subsystems {
         
         void driverFunctions();
 
-        void autoFunctions(double voltage);
+        //auton intake
+        void autoPickUP(double speed);
 
-        void endAutoTask();
+        void autoScoreHigh(double speed);
+
+        void autoScoreLow(double speed);
+
+        void autoScoreMid(double speed);
+
+        void stopAuto();
 
 
     };

@@ -10,6 +10,8 @@
 #include "pros/misc.hpp"
 #include "pros/rtos.hpp"
 
+#include "aura/autonselector.hpp"
+
 
 
 //create the drive train
@@ -34,11 +36,11 @@ subsystems::drivetrain drivetrain = subsystems::drivetrain
 
 //set up intake
 subsystems::intake intake = subsystems::intake(INTAKE_TOP_1,
-												INTAKE_REDIR,
-												INTAKE_BOTTOM_1,
-												INTAKE_BOTTOM_1,
-												HOOD,
-												INAKE);
+                                    INTAKE_REDIR,
+                          INTAKE_BOTTOM_1,
+                          INTAKE_BOTTOM_1,
+                            HOOD,
+                          INAKE);
 
 
 //set up match load
@@ -51,131 +53,36 @@ subsystems::descore descore = subsystems::descore(DESCORE);
 subsystems::park park = subsystems::park(PARK);
 
 
-
-//auton selector stuff
-
-enum class Auton {
-    NONE,
-    TEST,
-    LEFT_RUSH,
-    RIGHT_RUSH,
-    SKILLS
-};
-
-//set the default auton to the test one
-Auton selected_auton = Auton::TEST;
-
-
-//add any extra autons you want here
-const char* auton_names[] = {
-    "NONE",
-    "TEST AUTO",
-    "LEFT RUSH",
-    "RIGHT RUSH",
-    "SKILLS"
-};
-
-//the auton count needs to be expanded to add any more
-constexpr int AUTON_COUNT = 5;
-//set the starting index
-int auton_index = 1;
-
-/**
-    go back to the previous auton
-*/
-void on_left_button() {
-    auton_index--;
-    if (auton_index < 0) auton_index = AUTON_COUNT - 1;
-
-    pros::lcd::print(5, "Selected: %s", auton_names[auton_index]);
-}
-
-/**
-    Go do the next auton in the list
-*/
-void on_right_button() {
-    auton_index++;
-    if (auton_index >= AUTON_COUNT) auton_index = 0;
-
-    pros::lcd::print(5, "Selected: %s", auton_names[auton_index]);
-}
-
-/**
-    print to the controler screen
-*/
-void print_confirmed_auton_controller() {
-    int confirmed_index = static_cast<int>(selected_auton);
-    
-
-
-    
-    Controller.print(
-        0,
-        0,
-        "%-15s",
-        ("Auton: " + std::string(auton_names[confirmed_index])).c_str()
-    );
-}
-
-/**
-    confirm which auton is selected
-*/
-void on_center_button() {
-    selected_auton = static_cast<Auton>(auton_index);
-    pros::lcd::print(
-        6,
-        "CONFIRMED: %s",
-        auton_names[auton_index]
-    );
-
-    print_confirmed_auton_controller();
-}
-
-
-
 void initialize() {
-	pros::lcd::initialize();
+	
+
+    auton_selector_init();
 
     drivetrain.getIMU().reset();
     while (drivetrain.getIMU().is_calibrating()) {
-		pros::lcd::print(4,"IMU is calibrating drive is locked out");
+		//pros::lcd::print(4,"IMU is calibrating drive is locked out");
 		Controller.set_text(0, 0, "IMU calibrating...");
 		//has to wait 50 to be able to change the text again
         pros::delay(50);
     }
     //get rid of text
-	pros::lcd::clear_line(4);
+	//pros::lcd::clear_line(4);
 	Controller.clear_line(0);
-
-
-
-	pros::lcd::set_text(3, "==      AUTON SELECTOR     ==");
-    pros::lcd::set_text(7, "<    Prev |     Select       | Next>");
-    pros::lcd::print(5, "Selected: %s", auton_names[auton_index]);
-
-    pros::lcd::register_btn0_cb(on_left_button);
-    pros::lcd::register_btn1_cb(on_center_button);
-    pros::lcd::register_btn2_cb(on_right_button);
-
-    pros::lcd::print(5, "Selected: %s", auton_names[auton_index]);
-
-	
-
-    
+   
 	
     chassis.calibrate(true);
     chassis.setPose(0, 0, 0);
 
-	pros::Task screen_task([&]() {
-        while (true) {
-            //print robot location to the brain screen
-            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-            //delay to save resources
-            pros::delay(200);
-        }
-    });
+	// pros::Task screen_task([&]() {
+    //     while (true) {
+    //         //print robot location to the brain screen
+    //         pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+    //         pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+    //         pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+    //         //delay to save resources
+    //         pros::delay(200);
+    //     }
+    // });
     
 }
 
@@ -323,9 +230,8 @@ void skillsAuto() {
 }
 
 void autonomous() {
-    pros::lcd::print(7, "Running: %s", auton_names[auton_index]);
-
-    switch (selected_auton) {
+    
+    switch (auton_selector_get()) {
         case Auton::TEST:
             testauto();
             break;
@@ -343,11 +249,8 @@ void autonomous() {
             break;
 
         default:
-            pros::lcd::print(7, "NO AUTON SELECTED");
             break;
     }
-    
-	pros::lcd::clear_line(7);
 	
 
 }

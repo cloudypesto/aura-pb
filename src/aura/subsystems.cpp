@@ -289,8 +289,10 @@ namespace subsystems {
 
         void descore::driverFunctions()
         {
-            pressCount += Controller.get_digital_new_press(DIGITAL_A);
-            setState(pressCount % 2 != 0);
+            //hold L1 to extend
+            //release to retract
+            bool buttonHeld = Controller.get_digital(DIGITAL_L1);
+            setState(buttonHeld);
         }
 
 

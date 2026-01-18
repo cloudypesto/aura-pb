@@ -58,13 +58,13 @@ void initialize() {
 
     auton_selector_init();
 
-    drivetrain.getIMU().reset();
-    while (drivetrain.getIMU().is_calibrating()) {
-		//pros::lcd::print(4,"IMU is calibrating drive is locked out");
-		Controller.set_text(0, 0, "IMU calibrating...");
-		//has to wait 50 to be able to change the text again
-        pros::delay(50);
-    }
+    // drivetrain.getIMU().reset();
+    // while (drivetrain.getIMU().is_calibrating()) {
+	// 	//pros::lcd::print(4,"IMU is calibrating drive is locked out");
+	// 	Controller.set_text(0, 0, "IMU calibrating...");
+	// 	//has to wait 50 to be able to change the text again
+    //     pros::delay(50);
+    // }
     //get rid of text
 	//pros::lcd::clear_line(4);
 	Controller.clear_line(0);

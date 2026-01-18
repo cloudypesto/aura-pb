@@ -55,10 +55,10 @@
 //Subsystems Motor ports
 
     //Intake
-    #define INTAKE_TOP_1 6
-    #define INTAKE_REDIR 5
-    #define INTAKE_BOTTOM_1 16
-    #define INTAKE_BOTTOM_2 14
+    #define INTAKE_TOP_1 -1
+    #define INTAKE_REDIR 10
+    #define INTAKE_BOTTOM_1 -11
+    #define INTAKE_BOTTOM_2 20
 
 
 

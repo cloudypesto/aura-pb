@@ -69,7 +69,7 @@ namespace subsystems {
         //     {
         //         lower_voltage = 12000;
         //         //make it so redirspins the same way as top
-        //         redir_voltage = -1200;
+        //         redir_voltage = 12000;
         //         upper_voltage = 12000;
         //     }
         //     //outake from front
@@ -77,7 +77,7 @@ namespace subsystems {
         //     {
         //         lower_voltage = -12000;
         //         //redir spins the same way as upper
-        //         redir_voltage = -1200;
+        //         redir_voltage = -12000;
         //         upper_voltage = -12000;
         //     }
         //     //scoring mid
@@ -86,8 +86,8 @@ namespace subsystems {
         //         //lower spins up
         //         lower_voltage = 12000;
         //         //redir and up spins down
-        //         redir_voltage = -1200;
-        //         upper_voltage = -12000;
+        //         redir_voltage = -12000;
+        //         upper_voltage = 12000;
         //     }
 
 
@@ -97,15 +97,25 @@ namespace subsystems {
         //alternate intake driver functions:
         //allow for hood to open and close along with diffrent scoreing modes
         //allows for easier switching between modes of what needs to spin and what doesn't
-        //low key not sure if it will like work but like i think it should
+        //intake is able to keep spinning on a toggle (also closes hood)
+        //intake score up button opens the hood and spins so it scores up
+        //intake mid reverses the mid roller while the rest still go up
+        //intake bottom button outakes out the bottom and then also stops the toggle
 
         void intake::driverFunctions() {
             //toggles
-            hood_press_count   += Controller.get_digital_new_press(DIGITAL_Y);
-            intake_press_count += Controller.get_digital_new_press(DIGITAL_B);
+            //start indexing
+            if (Controller.get_digital_new_press(DIGITAL_B)) {
+                indexingEnabled = !indexingEnabled;
+            }
+
+            //open the hood on its own
+            if (Controller.get_digital_new_press(DIGITAL_Y)) {
+                hood_press_count++;
+            }
 
             bool hoodState = hood_press_count % 2 != 0;
-            bool intakeLiftState = intake_press_count % 2 != 0;
+            bool intakeLiftState = false;
 
             //----------------------------------------------------
             //DETERMINE CURRENT MODE
@@ -114,10 +124,10 @@ namespace subsystems {
                 currentMode = SCORE_TALL;
             else if (Controller.get_digital(DIGITAL_R2))
                 currentMode = SCORE_MID;
-            else if (Controller.get_digital(DIGITAL_L1))
-                currentMode = INTAKE_INDEX;
             else if (Controller.get_digital(DIGITAL_L2))
                 currentMode = OUTTAKE_LOW;
+            else if (indexingEnabled)
+                currentMode = INTAKE_INDEX;
             else
                 currentMode = IDLE;
 
@@ -130,27 +140,28 @@ namespace subsystems {
             //----------------------------------------------------
             switch(currentMode)
             {
-                case INTAKE_INDEX:   // L1
+                case INTAKE_INDEX:   // Toggle B
                     hoodState = false;          // hood closed
                     intakeLiftState = false;    // intake down
-                    lower_voltage = 12000;      // intake
-                    redir_voltage = -1200;
-                    upper_voltage = 12000;      // index up
+                    lower_voltage = 12000;
+                    redir_voltage = 12000;
+                    upper_voltage = 12000;
                     break;
 
                 case OUTTAKE_LOW:   // L2
                     hoodState = false;
                     intakeLiftState = true;     // intake lifted
                     lower_voltage = -12000;     // eject
-                    redir_voltage = -1200;
+                    redir_voltage = -12000;
                     upper_voltage = -12000;
+                    indexingEnabled = false; 
                     break;
 
                 case SCORE_TALL:    // R1
                     hoodState = true;           // hood OPEN
                     intakeLiftState = false;
                     lower_voltage = 12000;
-                    redir_voltage = -12000;
+                    redir_voltage = 12000;
                     upper_voltage = 12000;      // strong index
                     break;
 
@@ -158,7 +169,7 @@ namespace subsystems {
                     hoodState = false;          // hood CLOSED
                     intakeLiftState = false;
                     lower_voltage = 12000;
-                    redir_voltage = 12000;
+                    redir_voltage = -12000;
                     upper_voltage = 12000;
                     break;
 

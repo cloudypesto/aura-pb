@@ -54,6 +54,7 @@
 
 //Subsystems Motor ports
 
+    //set up so that they are all going up by default
     //Intake
     #define INTAKE_TOP_1 -1
     #define INTAKE_REDIR 10

@@ -118,6 +118,9 @@ namespace subsystems {
         //be able to ge between the modes when diffrent buttons pressed
         IntakeMode currentMode = IDLE;
 
+        //allow the index to keep running
+        bool indexingEnabled = false;
+
         public:
         //constructor
         intake(int intake_top_1_port, 

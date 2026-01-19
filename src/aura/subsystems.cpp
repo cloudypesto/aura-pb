@@ -109,6 +109,19 @@ namespace subsystems {
                 indexingEnabled = !indexingEnabled;
             }
 
+            //make the mid goal scorer spin at full speed
+            if (Controller.get_digital_new_press(DIGITAL_RIGHT)) {
+                midFast = !midFast;
+                
+                //print to the controller
+                Controller.clear_line(0);
+                Controller.set_text(
+                    0,
+                    0,
+                    midFast ? "FAST" : ""
+                );
+            }
+
             //open the hood on its own
             if (Controller.get_digital_new_press(DIGITAL_Y)) {
                 hood_press_count++;
@@ -169,7 +182,10 @@ namespace subsystems {
                     hoodState = false;          // hood CLOSED
                     intakeLiftState = false;
                     lower_voltage = 12000;
-                    redir_voltage = -12000;
+                    
+                    //toggleable redirect speed
+                    redir_voltage = midFast ? -12000 : -4000;
+
                     upper_voltage = 12000;
                     break;
 

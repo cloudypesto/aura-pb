@@ -121,6 +121,9 @@ namespace subsystems {
         //allow the index to keep running
         bool indexingEnabled = false;
 
+        //allow the mid to be ran fast
+        bool midFast = false;
+
         public:
         //constructor
         intake(int intake_top_1_port, 

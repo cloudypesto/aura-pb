@@ -277,9 +277,9 @@ void opcontrol() {
 
         
 		//run auto lol
-		if(Controller.get_digital(DIGITAL_X)){
-			autonomous();
-		}
+		// if(Controller.get_digital(DIGITAL_X)){
+		// 	autonomous();
+		// }
         
 
 	pros::delay(10);

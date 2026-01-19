@@ -58,8 +58,8 @@
     //Intake
     #define INTAKE_TOP_1 -1
     #define INTAKE_REDIR 10
-    #define INTAKE_BOTTOM_1 -11
-    #define INTAKE_BOTTOM_2 20
+    #define INTAKE_BOTTOM_1 -11//left
+    #define INTAKE_BOTTOM_2 20//right
 
 
 

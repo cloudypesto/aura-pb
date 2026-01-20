@@ -72,8 +72,6 @@ namespace subsystems {
                 midFast = !midFast;
                 
                 //print to the controller
-
-
                 //STILLLLL NEEED TO FIX THE TEXT
 
                 Controller.clear_line(0);
@@ -81,6 +79,20 @@ namespace subsystems {
                     0,
                     0,
                     midFast ? "FAST" : ""
+                );
+            }
+
+            if (Controller.get_digital_new_press(DIGITAL_DOWN)) {
+                lowFast = !lowFast;
+                
+                //print to the controller
+                //STILLLLL NEEED TO FIX THE TEXT
+
+                Controller.clear_line(0);
+                Controller.set_text(
+                    0,
+                    0,
+                    lowFast ? "FAST" : ""
                 );
             }
 
@@ -153,7 +165,7 @@ namespace subsystems {
                 case OUTTAKE_LOW:   // L2
                     hoodState = false;
                     intakeLiftState = true;     // intake lifted
-                    lower_voltage = -250;     // eject
+                    lower_voltage = lowFast ? -600 : -250;     // eject
                     redir_voltage = -12000;
                     upper_voltage = -12000;
                     indexingEnabled = false; 

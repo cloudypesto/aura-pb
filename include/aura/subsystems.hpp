@@ -127,6 +127,9 @@ namespace subsystems {
         //allow the mid to be ran fast
         bool midFast = false;
 
+        //allow the low to be ran slowly
+        bool lowFast = false;
+
         int32_t unjamStartTime = 0;
         static constexpr int32_t UNJAM_TIME = 333;
 

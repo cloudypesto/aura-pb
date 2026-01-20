@@ -38,7 +38,7 @@ subsystems::drivetrain drivetrain = subsystems::drivetrain
 subsystems::intake intake = subsystems::intake(INTAKE_TOP_1,
                                     INTAKE_REDIR,
                           INTAKE_BOTTOM_1,
-                          INTAKE_BOTTOM_1,
+                          INTAKE_BOTTOM_2,
                             HOOD,
                           INAKE);
 
@@ -280,6 +280,8 @@ void opcontrol() {
 		// if(Controller.get_digital(DIGITAL_X)){
 		// 	autonomous();
 		// }
+        
+        
         
 
 	pros::delay(10);

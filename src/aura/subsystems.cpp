@@ -41,8 +41,8 @@ namespace subsystems {
             //set the intakes motors to go the ways they need to
             intake_top_1.move_voltage(floor(upper_voltage));
             redir.move_voltage(floor(redir_voltage));
-            intake_bottom_1.move_voltage(floor(lower_voltage));
-            intake_bottom_2.move_voltage(floor(lower_voltage));
+            intake_bottom_1.move_velocity(floor(lower_voltage));
+            intake_bottom_2.move_velocity(floor(lower_voltage));
 
 
             //set the positions of the pistons
@@ -50,51 +50,9 @@ namespace subsystems {
             intake_solanoid.set_value(intake_solanoid_state); //uses two pistons
         }
 
-        // void intake::driverFunctions(){
-        //     //open or close the hood
-        //     hood_press_count += Controller.get_digital_new_press(DIGITAL_Y);
+        
 
-        //     //lift or drop the intake
-        //     intake_press_count += Controller.get_digital_new_press(DIGITAL_B);
-
-        //     //Intake Control
-        //     double lower_voltage = 0;
-        //     double upper_voltage = 0;
-        //     double redir_voltage = 0;
-
-        //     //all the directions the intake needs to spin not currently sure what its gonna be
-        //     //this is where we can control how the intake will control where it keeps the balls
-        //     //Intakeing from front to top
-        //     if(Controller.get_digital(DIGITAL_R1))
-        //     {
-        //         lower_voltage = 12000;
-        //         //make it so redirspins the same way as top
-        //         redir_voltage = 12000;
-        //         upper_voltage = 12000;
-        //     }
-        //     //outake from front
-        //     else if(Controller.get_digital(DIGITAL_R2))
-        //     {
-        //         lower_voltage = -12000;
-        //         //redir spins the same way as upper
-        //         redir_voltage = -12000;
-        //         upper_voltage = -12000;
-        //     }
-        //     //scoring mid
-        //     else if(Controller.get_digital(DIGITAL_L1))
-        //     {   
-        //         //lower spins up
-        //         lower_voltage = 12000;
-        //         //redir and up spins down
-        //         redir_voltage = -12000;
-        //         upper_voltage = 12000;
-        //     }
-
-
-        //     setIntakeState(lower_voltage, redir_voltage, upper_voltage, hood_press_count % 2 != 0, intake_press_count % 2 != 0);
-        // }
-
-        //alternate intake driver functions:
+        // intake driver functions:
         //allow for hood to open and close along with diffrent scoreing modes
         //allows for easier switching between modes of what needs to spin and what doesn't
         //intake is able to keep spinning on a toggle (also closes hood)
@@ -114,6 +72,10 @@ namespace subsystems {
                 midFast = !midFast;
                 
                 //print to the controller
+
+
+                //STILLLLL NEEED TO FIX THE TEXT
+
                 Controller.clear_line(0);
                 Controller.set_text(
                     0,
@@ -133,16 +95,31 @@ namespace subsystems {
             //----------------------------------------------------
             //DETERMINE CURRENT MODE
             //----------------------------------------------------
-            if (Controller.get_digital(DIGITAL_R1))
-                currentMode = SCORE_TALL;
-            else if (Controller.get_digital(DIGITAL_R2))
-                currentMode = SCORE_MID;
-            else if (Controller.get_digital(DIGITAL_L2))
-                currentMode = OUTTAKE_LOW;
-            else if (indexingEnabled)
-                currentMode = INTAKE_INDEX;
-            else
-                currentMode = IDLE;
+            //unjam
+            //on get new press click the button once then it just runs it
+            //unjames by spinning back and then goes back to indexing
+            if (Controller.get_digital_new_press(DIGITAL_X)) {
+                currentMode = UNJAM;
+                unjamStartTime = pros::millis();
+            }
+            if (currentMode == UNJAM) {
+                if (pros::millis() - unjamStartTime >= UNJAM_TIME) {
+                    currentMode = indexingEnabled ? INTAKE_INDEX : IDLE;
+                }
+            }
+            else{
+                if (Controller.get_digital(DIGITAL_R1))
+                    currentMode = SCORE_TALL;
+                else if (Controller.get_digital(DIGITAL_R2))
+                    currentMode = SCORE_MID;
+                else if (Controller.get_digital(DIGITAL_L2)){
+                    currentMode = OUTTAKE_LOW;
+                }
+                else if (indexingEnabled)
+                    currentMode = INTAKE_INDEX;
+                else
+                    currentMode = IDLE;
+            }
 
             double lower_voltage = 0;
             double upper_voltage = 0;
@@ -151,20 +128,32 @@ namespace subsystems {
             //----------------------------------------------------
             //APPLY MODE LOGIC FROM BUTTON PRESS
             //----------------------------------------------------
+
             switch(currentMode)
             {
-                case INTAKE_INDEX:   // Toggle B
+                case UNJAM:
+                    lower_voltage = -12000;
+                    redir_voltage = -12000;
+                    upper_voltage = -12000;
+
+                break;
+                case INTAKE_INDEX:{   // Toggle B
                     hoodState = false;          // hood closed
                     intakeLiftState = false;    // intake down
                     lower_voltage = 12000;
-                    redir_voltage = 12000;
-                    upper_voltage = 12000;
+                    upper_voltage = 6666;
+
+                    redir_voltage = 8000;
+
+                    
+
                     break;
+                }
 
                 case OUTTAKE_LOW:   // L2
                     hoodState = false;
                     intakeLiftState = true;     // intake lifted
-                    lower_voltage = -12000;     // eject
+                    lower_voltage = -250;     // eject
                     redir_voltage = -12000;
                     upper_voltage = -12000;
                     indexingEnabled = false; 
@@ -188,6 +177,7 @@ namespace subsystems {
 
                     upper_voltage = 12000;
                     break;
+                
 
                 case IDLE:
                 default:

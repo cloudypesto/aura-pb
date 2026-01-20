@@ -48,7 +48,7 @@
         // #define Y_ENCODER_BOTTOM 'D'
 
     //imu ports
-        #define IMU1 20
+        #define IMU1 19
 
 
 
@@ -66,19 +66,19 @@
 //Prenumatics ports
     
     //Park
-    #define PARK 'A'
+    #define PARK 'X'
 
     //Matchload
-    #define MATCHLOAD 'C'
+    #define MATCHLOAD 'X'
 
     //Intake
-    #define INAKE 'D'
+    #define INAKE 'X'
 
     //Hood / GATE
-    #define HOOD 'F'
+    #define HOOD 'B'
 
     //Wing
-    #define DESCORE 'G'
+    #define DESCORE 'X'
 
 
 

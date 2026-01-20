@@ -93,9 +93,10 @@ namespace subsystems {
         INTAKE_INDEX,
         OUTTAKE_LOW,
         SCORE_TALL,
-        SCORE_MID
+        SCORE_MID,
+        UNJAM
     };
-
+    
     class intake{
         //set up the motors
         pros::Motor intake_top_1;
@@ -121,9 +122,16 @@ namespace subsystems {
         //allow the index to keep running
         bool indexingEnabled = false;
 
+        
+
         //allow the mid to be ran fast
         bool midFast = false;
 
+        int32_t unjamStartTime = 0;
+        static constexpr int32_t UNJAM_TIME = 333;
+
+
+        
         public:
         //constructor
         intake(int intake_top_1_port, 

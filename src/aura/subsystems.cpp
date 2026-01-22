@@ -73,36 +73,30 @@ namespace subsystems {
                 
                 //print to the controller
                 //STILLLLL NEEED TO FIX THE TEXT
-
-                Controller.clear_line(0);
-                Controller.set_text(
-                    0,
-                    0,
-                    midFast ? "FAST" : ""
-                );
             }
 
+            //make lower spin at full speed
             if (Controller.get_digital_new_press(DIGITAL_DOWN)) {
                 lowFast = !lowFast;
                 
                 //print to the controller
                 //STILLLLL NEEED TO FIX THE TEXT
-
-                Controller.clear_line(0);
-                Controller.set_text(
-                    0,
-                    0,
-                    lowFast ? "FAST" : ""
-                );
             }
 
             //open the hood on its own
             if (Controller.get_digital_new_press(DIGITAL_Y)) {
                 hood_press_count++;
             }
+            //intake on its own
+            if (Controller.get_digital_new_press(DIGITAL_A)) {
+                intake_press_count ++;
+            }
+
 
             bool hoodState = hood_press_count % 2 != 0;
-            bool intakeLiftState = false;
+            bool intakeLiftState = intake_press_count % 2 != 0;
+            //bool intakeLiftState = false;
+            
 
             //----------------------------------------------------
             //DETERMINE CURRENT MODE
@@ -288,7 +282,7 @@ namespace subsystems {
 
         void matchload::driverFunctions()
         {
-            matchload_press_count += Controller.get_digital_new_press(DIGITAL_RIGHT);
+            matchload_press_count += Controller.get_digital_new_press(DIGITAL_UP);
 
             //pressed odd amount of times
             if(matchload_press_count % 2 != 0)
@@ -342,7 +336,7 @@ namespace subsystems {
 
         void park::driverFunctions()
         {
-            press_count += Controller.get_digital_new_press(DIGITAL_X);
+            press_count += Controller.get_digital_new_press(DIGITAL_LEFT);
             setState(press_count % 2 != 0);
         }
 

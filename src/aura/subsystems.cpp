@@ -230,7 +230,7 @@ namespace subsystems {
     */
     void intake::autoScoreMid(double speed){
         setIntakeState(
-            -speed, //go down
+            speed, 
             -speed, //goes the other direction
             speed, 
             false, 

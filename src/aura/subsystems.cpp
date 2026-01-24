@@ -67,20 +67,12 @@ namespace subsystems {
                 indexingEnabled = !indexingEnabled;
             }
 
-            //make the mid goal scorer spin at full speed
-            if (Controller.get_digital_new_press(DIGITAL_RIGHT)) {
-                midFast = !midFast;
-                
-                //print to the controller
-                //STILLLLL NEEED TO FIX THE TEXT
-            }
+            
 
-            //make lower spin at full speed
-            if (Controller.get_digital_new_press(DIGITAL_DOWN)) {
+            //make speed for mid goals changed when down is being held
+            if (Controller.get_digital(DIGITAL_DOWN)) {
                 lowFast = !lowFast;
-                
-                //print to the controller
-                //STILLLLL NEEED TO FIX THE TEXT
+                midFast = !midFast;
             }
 
             //open the hood on its own
@@ -179,7 +171,7 @@ namespace subsystems {
                     lower_voltage = 12000;
                     
                     //toggleable redirect speed
-                    redir_voltage = midFast ? -12000 : -4000;
+                    redir_voltage = midFast ? -4000 : -12000;
 
                     upper_voltage = 12000;
                     break;

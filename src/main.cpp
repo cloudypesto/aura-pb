@@ -55,8 +55,14 @@ subsystems::park park = subsystems::park(PARK);
 
 void initialize() {
 	
-
-    auton_selector_init();
+    AutonColors auton_sel_colours = {
+        .bg_color = lv_color_hex(0x000000),        // black
+        .btn_normal = lv_color_hex(0xb35ee0),      // pruble
+        .btn_selected = lv_color_hex(0x20c418),    // geen
+        .btn_text_normal = lv_color_hex(0xffffff), // White
+        .btn_text_selected = lv_color_hex(0x000000) // Black
+    };
+    auton_selector_init_colors(auton_sel_colours );
 
     // drivetrain.getIMU().reset();
     // while (drivetrain.getIMU().is_calibrating()) {
@@ -195,18 +201,18 @@ void testauto(){
 	chassis.setPose(0, 0, 0);
 	//chassis.follow(hehehe_txt, 20, 4000);
 	//chassis.turnToHeading(90, 40000, {.maxSpeed = 40},false);
-	//chassis.moveToPose(17, 0, 1, 2000,{ .horizontalDrift = 2, .lead = 1, .maxSpeed = 40});
+	chassis.moveToPose(5, 96, 90, 10000,{ .horizontalDrift = 2, .lead = 0.3, .maxSpeed = 80});
 	//chassis.moveToPoint(0, 0, 4000,{ .maxSpeed = 40});
 	//pros::delay(450);
 	//chassis.moveToPoint(24, 0, 3000, {.maxSpeed = 40});
 
 	//current go straight
-	drivetrain.moveDistance(10, 70, 1000);
-    pros::delay(200);
+	//drivetrain.moveDistance(10, 70, 1000);
+    //pros::delay(200);
 
 	//chassis.swingToHeading(90, lemlib::DriveSide::LEFT ,1000, {.maxSpeed = 40},true);
-	drivetrain.moveDistance(-10, 70, 1000);
-    pros::delay(200);
+	//drivetrain.moveDistance(-10, 70, 1000);
+    //pros::delay(200);
 
 	// drivetrain.moveDistance(12, 20, 2000);
 	// pros::delay(200);    

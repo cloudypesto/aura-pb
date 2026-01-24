@@ -84,7 +84,7 @@ namespace subsystems {
             }
 
             //open the hood on its own
-            if (Controller.get_digital_new_press(DIGITAL_Y)) {
+            if (Controller.get_digital_new_press(DIGITAL_UP)) {
                 hood_press_count++;
             }
             //intake on its own
@@ -282,7 +282,7 @@ namespace subsystems {
 
         void matchload::driverFunctions()
         {
-            matchload_press_count += Controller.get_digital_new_press(DIGITAL_UP);
+            matchload_press_count += Controller.get_digital_new_press(DIGITAL_Y);
 
             //pressed odd amount of times
             if(matchload_press_count % 2 != 0)
@@ -336,7 +336,7 @@ namespace subsystems {
 
         void park::driverFunctions()
         {
-            press_count += Controller.get_digital_new_press(DIGITAL_LEFT);
+            //press_count += Controller.get_digital_new_press(DIGITAL_LEFT);
             setState(press_count % 2 != 0);
         }
 

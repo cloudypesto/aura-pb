@@ -14,12 +14,12 @@
  */
 
 // Drive Train
-#define DRIVE_WHEEL_DIAMETER 3.25
+#define DRIVE_WHEEL_DIAMETER 2.75
 #define DRIVE_GEAR_RATIO 0.75
 
 // Track width
 // distance between left and right wheel centers, meters (calibrate)
-#define TRACKWIDTH 10.5
+#define TRACKWIDTH 11.5
 
 #define TRACKING_WHEEL_DIAMETER 3.25
 
@@ -52,7 +52,7 @@
 
 // set up so that they are all going up by default
 // Intake
-#define INTAKE_TOP_1 2
+#define INTAKE_TOP_1 -2
 #define INTAKE_REDIR 5
 #define INTAKE_BOTTOM_1 -15 // left
 #define INTAKE_BOTTOM_2 6   // right

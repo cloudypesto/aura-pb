@@ -24,7 +24,7 @@ lemlib::Drivetrain drivetrainConfig {
     &drivetrain.getRightDrive(),
     TRACKWIDTH,        
     DRIVE_WHEEL_DIAMETER,
-    450,                
+    600,                
     2 //horizontalDrift is 2
     //traction wheels horizontalDrift would be 8
 };

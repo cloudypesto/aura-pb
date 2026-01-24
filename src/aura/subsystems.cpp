@@ -70,10 +70,7 @@ namespace subsystems {
             
 
             //make speed for mid goals changed when down is being held
-            if (Controller.get_digital(DIGITAL_DOWN)) {
-                lowFast = !lowFast;
-                midFast = !midFast;
-            }
+            bool speedOverride = Controller.get_digital(DIGITAL_DOWN);
 
             //open the hood on its own
             if (Controller.get_digital_new_press(DIGITAL_UP)) {
@@ -87,7 +84,6 @@ namespace subsystems {
 
             bool hoodState = hood_press_count % 2 != 0;
             bool intakeLiftState = intake_press_count % 2 != 0;
-            //bool intakeLiftState = false;
             
 
             //----------------------------------------------------
@@ -148,14 +144,18 @@ namespace subsystems {
                     break;
                 }
 
-                case OUTTAKE_LOW:   // L2
+                case OUTTAKE_LOW:{   // L2
                     hoodState = false;
                     intakeLiftState = true;     // intake lifted
-                    lower_voltage = lowFast ? -600 : -250;     // eject
+
+                    bool lowIsFast = lowFast || speedOverride;
+                    lower_voltage = lowIsFast ?  -250 : -600;
+
                     redir_voltage = -12000;
                     upper_voltage = -12000;
                     indexingEnabled = false; 
                     break;
+                }
 
                 case SCORE_TALL:    // R1
                     hoodState = true;           // hood OPEN
@@ -165,16 +165,18 @@ namespace subsystems {
                     upper_voltage = 12000;      // strong index
                     break;
 
-                case SCORE_MID:     // R2
+                case SCORE_MID:{     // R2
                     hoodState = false;          // hood CLOSED
                     intakeLiftState = false;
                     lower_voltage = 12000;
                     
                     //toggleable redirect speed
-                    redir_voltage = midFast ? -4000 : -12000;
+                    bool midIsFast = midFast || speedOverride;
+                    redir_voltage = midIsFast ? -12000: -4000;
 
                     upper_voltage = 12000;
                     break;
+                }
                 
 
                 case IDLE:

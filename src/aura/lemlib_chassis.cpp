@@ -44,36 +44,36 @@ lemlib::OdomSensors sensors {
     //set to null pointer untill the odom is actually added
     nullptr,
     nullptr,               
-    &horizontalWheel,
+    nullptr,
     nullptr,              
     &drivetrain.getIMU()          //IMU
 };
 
 //PID controllers
 //Linear
-lemlib::ControllerSettings linearController {
-    10,   // kP
-    0,    // kI
-    3,   // kD
-    3,    // anti-windup
-    1,    // small error
-    100,  // small timeout
-    3,    // large error
-    500,  // large timeout
-    20     //
+lemlib::ControllerSettings linearController{
+    10,  // kP
+    0,   // kI
+    8,   // kD
+    0,   // anti-windup
+    1,   // small error
+    100, // small timeout
+    3,   // large error
+    500, // large timeout
+    50   //
 };
 
-//Angular
-lemlib::ControllerSettings angularController {
-    5, // proportional gain (kP)
-    2, // integral gain (kI)
-    50, // derivative gain (kD)
-    3, // anti windup
-    1, // small error range, in inches
-    100, // small error range timeout, in milliseconds
-    2, // large error range, in inches
-    500, // large error range timeout, in milliseconds
-    0 // maximum acceleration (slew)
+// Angular
+lemlib::ControllerSettings angularController{
+    2.2,  // proportional gain (kP)
+    0,  // integral gain (kI)
+    15, // derivative gain (kD)
+    0,  // anti windup
+    1,  // small error range, in inches
+    100,  // small error range timeout, in milliseconds
+    3,  // large error range, in inches
+    500,  // large error range timeout, in milliseconds
+    80   // maximum acceleration (slew)
 };
 
 

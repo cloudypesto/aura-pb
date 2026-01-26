@@ -162,13 +162,13 @@ namespace subsystems {
         void driverFunctions();
 
         //auton intake
-        void autoPickUP(double speed);
+        void autoIndex();
 
-        void autoScoreHigh(double speed);
+        void autoScoreHigh();
 
-        void autoScoreLow(double speed);
+        void autoScoreLow();
 
-        void autoScoreMid(double speed);
+        void autoScoreMid();
 
         void stopAuto();
 
@@ -190,6 +190,10 @@ namespace subsystems {
         //function to run during driver control
         void driverFunctions();
 
+
+        //activate match loader
+        void autonFucntions(bool );
+        
     };
 
     class descore

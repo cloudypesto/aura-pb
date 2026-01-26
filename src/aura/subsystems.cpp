@@ -197,49 +197,51 @@ namespace subsystems {
     /**
         @brief keep the intake spinning and the hood closed
     */
-    void intake::autoPickUP(double speed){
+    void intake::autoIndex(){
         setIntakeState(
-            speed, 
-            speed, 
-            speed, 
+            12000, 
+            8000, 
+            6666, 
             false, 
-            false);
+            false);            
     }
 
     /** 
      @brief score in the high goals in auton spins out the ball and opens the hood
     */
-    void intake::autoScoreHigh(double speed){
+    void intake::autoScoreHigh(){
         setIntakeState(
-            speed, 
-            speed, 
-            speed, 
+            12000, 
+            12000, 
+            12000, 
             true, //hood open
             false);
+
+            
 
     }
 
     /**
         @brief redirect blocks out of the mid roller and score the mid
     */
-    void intake::autoScoreMid(double speed){
+    void intake::autoScoreMid(){
         setIntakeState(
-            speed, 
-            -speed, //goes the other direction
-            speed, 
+            12000, 
+            -4000, //goes the other direction
+            12000, 
             false, 
             false);
-    }
+        }
 
     /**
         @brief score out of the lower goal
         the lower intake needs to like spin slower?
     */
-    void intake::autoScoreLow(double speed){
+    void intake::autoScoreLow(){
         setIntakeState(
-            -speed, //goes the other direction
-            -speed, //goes the other direction
-            -speed, //goes the other direction
+            -12000, //goes the other direction
+            -12000, //goes the other direction
+            -12000, //goes the other direction
             false, 
             true); //lift up intake
     }
@@ -281,13 +283,18 @@ namespace subsystems {
             //pressed odd amount of times
             if(matchload_press_count % 2 != 0)
             {
-                setState(1);
+                setState(true);
             }
             else
             {
-                setState(0);
+                setState(false);
             }  
         }
+
+        // void matchload::autonFucntions(){
+
+
+        // }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -184,7 +184,7 @@ void testauto()
     chassis.setPose(63.5, -24, 270);
     // chassis.follow(hehehe_txt, 20, 4000);
     // chassis.turnToHeading(90, 40000, {.maxSpeed = 40},false);
-    chassis.moveToPose(-36, -24, 270, 5000, {.maxSpeed = 95});
+    //chassis.moveToPose(-36, -24, 270, 5000, {.maxSpeed = 95});
     // chassis.moveToPoint(0, 0, 4000,{ .maxSpeed = 40});
     // pros::delay(450);
     // chassis.moveToPoint(24, 0, 3000, {.maxSpeed = 40});
@@ -199,6 +199,38 @@ void testauto()
 
     // drivetrain.moveDistance(12, 20, 2000);
     // pros::delay(200);
+
+  
+    //intake.autoIndex();
+
+    //intake.autoScoreHigh();
+    //intake.autoScoreMid();
+    //intake.autoScoreLow();
+
+
+    
+    // descore.setState(true);
+    // pros::delay(2000);
+
+    // descore.setState(false);
+
+    // matchload.setState(true);
+    // pros::delay(2000);
+
+    // matchload.setState(false);
+    // pros::delay(2000);
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 void leftRushAuto()
@@ -209,9 +241,32 @@ void leftRushAuto()
 
 void rightRushAuto()
 {
-    chassis.setPose(0, 0, 0);
-    drivetrain.moveDistance(24, 80, 2000);
-    chassis.turnToHeading(90, 1000);
+    chassis.setPose(-47, -12, 120);
+    intake.autoIndex();
+
+    chassis.moveToPose(-6, -41, 120, 2000, {.horizontalDrift = 2,  .lead = 0.3, .maxSpeed = 50});
+
+    //put the match load down
+    matchload.setState(true);
+    pros::delay(500);
+
+    //go to match loader
+    chassis.moveToPose(-56.752, -46, 270, 3000, {.horizontalDrift = 2,  .lead = 0.3, .maxSpeed = 50});
+    matchload.setState(false);
+
+    //turn to be aligned with the loader
+    chassis.turnToHeading(270, 500);
+    chassis.moveToPoint(-60, -46, 500);
+    matchload.setState(true);
+
+
+    //wait at goal for one second to match load
+    pros::delay(1000);
+
+    chassis.moveToPose(-28, 47, 270, 2000, {.forwards = false,  .horizontalDrift = 2,  .lead = 0.3,.maxSpeed = 50});
+
+    intake.autoScoreHigh();
+
 }
 
 void skillsAuto()
@@ -268,9 +323,9 @@ void opcontrol()
         park.driverFunctions();
 
         // run auto lol
-        //  if(Controller.get_digital(DIGITAL_X)){
-        //  	autonomous();
-        //  }
+         if(Controller.get_digital(DIGITAL_LEFT)){
+         	autonomous();
+         }
 
         pros::delay(10);
     }

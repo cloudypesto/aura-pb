@@ -50,8 +50,8 @@ void initialize()
 {
 
     AutonColors auton_sel_colours = {
-        .bg_color = lv_color_hex(0x000000),         // black
-        .btn_normal = lv_color_hex(0xb35ee0),       // pruble
+        .bg_color = lv_color_hex(0x826082),         // black
+        .btn_normal = lv_color_hex(0xd692c6),       // bink
         .btn_selected = lv_color_hex(0x20c418),     // geen
         .btn_text_normal = lv_color_hex(0xffffff),  // White
         .btn_text_selected = lv_color_hex(0x000000) // Black
@@ -323,9 +323,9 @@ void opcontrol()
         park.driverFunctions();
 
         // run auto lol
-         if(Controller.get_digital(DIGITAL_LEFT)){
-         	autonomous();
-         }
+        // if(Controller.get_digital(DIGITAL_LEFT)){
+        // autonomous();
+        // }
 
         pros::delay(10);
     }

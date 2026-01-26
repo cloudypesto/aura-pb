@@ -128,14 +128,14 @@ namespace subsystems {
                 case UNJAM:
                     lower_voltage = -12000;
                     redir_voltage = -12000;
-                    upper_voltage = -12000;
+                    upper_voltage = 12000;
 
                 break;
                 case INTAKE_INDEX:{   // Toggle B
                     hoodState = false;          // hood closed
                     intakeLiftState = false;    // intake down
                     lower_voltage = 12000;
-                    upper_voltage = 6666;
+                    upper_voltage = -6666;
 
                     redir_voltage = 8000;
 
@@ -152,7 +152,7 @@ namespace subsystems {
                     lower_voltage = lowIsFast ?  -250 : -600;
 
                     redir_voltage = -12000;
-                    upper_voltage = -12000;
+                    upper_voltage = 12000;
                     indexingEnabled = false; 
                     break;
                 }
@@ -162,7 +162,7 @@ namespace subsystems {
                     intakeLiftState = false;
                     lower_voltage = 12000;
                     redir_voltage = 12000;
-                    upper_voltage = 12000;      // strong index
+                    upper_voltage = -12000;      // strong index
                     break;
 
                 case SCORE_MID:{     // R2

@@ -25,7 +25,7 @@ lemlib::Drivetrain drivetrainConfig {
     TRACKWIDTH,        
     DRIVE_WHEEL_DIAMETER,
     600,                
-    2 //horizontalDrift is 2
+    8 //horizontalDrift is 2
     //traction wheels horizontalDrift would be 8
 };
 

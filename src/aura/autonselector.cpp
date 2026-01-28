@@ -43,9 +43,9 @@ static constexpr int AUTON_COUNT = 5;
 
 static const char* auton_names[AUTON_COUNT] = {
     "NONE",
-    "TEST AUTO",
-    "LEFT RUSH",
+    "RIGHT HIGH SCORE",
     "RIGHT RUSH",
+    "LEFT SCORE",
     "SKILLS"
 };
 

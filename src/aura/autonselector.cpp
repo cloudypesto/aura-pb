@@ -49,7 +49,7 @@ static const char* auton_names[AUTON_COUNT] = {
     "SKILLS"
 };
 
-static Auton selected_auton = Auton::TEST;
+static Auton selected_auton = Auton::LEFT_HIGH_SCORE;
 static int selected_index = 1;
 
 static lv_obj_t* auton_screen = nullptr;

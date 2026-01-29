@@ -5,9 +5,9 @@
 
 enum class Auton {
     NONE,
-    TEST,
+    LEFT_HIGH_SCORE,
     LEFT_RUSH,
-    RIGHT_RUSH,
+    RIGHT_SCORE,
     SKILLS
 };
 

@@ -63,13 +63,13 @@
 #define PARK 'X'
 
 // Matchload
-#define MATCHLOAD 'D'
+#define MATCHLOAD 'C'
 
 // Intake
-#define INAKE 'C'
+#define INAKE 'B'
 
 // Hood / GATE
 #define HOOD 'A'
 
 // Wing
-#define DESCORE 'B'
+#define DESCORE 'D'

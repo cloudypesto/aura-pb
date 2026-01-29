@@ -179,7 +179,7 @@ ASSET(examplekillme_txt);
 ASSET(hehehe_txt);
 
 // Make like these to have diff autos to swap through
-void testauto()
+void left_high_score()
 {
     chassis.setPose(63.5, -24, 270);
     // chassis.follow(hehehe_txt, 20, 4000);
@@ -241,31 +241,7 @@ void leftRushAuto()
 
 void rightRushAuto()
 {
-    chassis.setPose(-47, -12, 120);
-    intake.autoIndex();
-
-    chassis.moveToPose(-6, -41, 120, 2000, {.horizontalDrift = 2,  .lead = 0.3, .maxSpeed = 50});
-
-    //put the match load down
-    matchload.setState(true);
-    pros::delay(500);
-
-    //go to match loader
-    chassis.moveToPose(-56.752, -46, 270, 3000, {.horizontalDrift = 2,  .lead = 0.3, .maxSpeed = 50});
-    matchload.setState(false);
-
-    //turn to be aligned with the loader
-    chassis.turnToHeading(270, 500);
-    chassis.moveToPoint(-60, -46, 500);
-    matchload.setState(true);
-
-
-    //wait at goal for one second to match load
-    pros::delay(1000);
-
-    chassis.moveToPose(-28, 47, 270, 2000, {.forwards = false,  .horizontalDrift = 2,  .lead = 0.3,.maxSpeed = 50});
-
-    intake.autoScoreHigh();
+    
 
 }
 
@@ -280,15 +256,15 @@ void autonomous()
 
     switch (auton_selector_get())
     {
-    case Auton::TEST:
-        testauto();
+    case Auton::LEFT_HIGH_SCORE:
+        left_high_score();
         break;
 
     case Auton::LEFT_RUSH:
         leftRushAuto();
         break;
 
-    case Auton::RIGHT_RUSH:
+    case Auton::RIGHT_SCORE:
         rightRushAuto();
         break;
 

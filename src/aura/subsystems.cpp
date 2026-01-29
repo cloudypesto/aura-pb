@@ -146,7 +146,7 @@ namespace subsystems {
 
                 case OUTTAKE_LOW:{   // L2
                     hoodState = false;
-                    intakeLiftState = true;     // intake lifted
+                    intakeLiftState = false;     // intake lifted
 
                     bool lowIsFast = lowFast || speedOverride;
                     lower_voltage = lowIsFast ?  -250 : -600;
@@ -243,7 +243,7 @@ namespace subsystems {
             -12000, //goes the other direction
             -12000, //goes the other direction
             false, 
-            true); //lift up intake
+            false); //lift up intake
     }
 
     /**

@@ -35,6 +35,7 @@ namespace subsystems {
         //the rest get added to the group after set up
         pros::MotorGroup leftDrive = pros::MotorGroup(left_1);
         pros::MotorGroup rightDrive = pros::MotorGroup(right_1);
+        
 
         //set up encoder tracking
         pros::adi::Encoder XTrackingEncoder;
@@ -53,6 +54,8 @@ namespace subsystems {
         //motor gorup getters
         pros::MotorGroup& getLeftDrive() { return leftDrive; }
         pros::MotorGroup& getRightDrive() { return rightDrive; }
+        
+
 
         //tracking wheels getters
         pros::adi::Encoder& getXTrackingEncoder() { return XTrackingEncoder; }
@@ -85,6 +88,8 @@ namespace subsystems {
 
         //drives forward for like half a second
         void double_park();
+
+        void moveVelocity(double velocity);
         
         
 

@@ -35,6 +35,8 @@ namespace subsystems
         rightDrive.append(right_4);
     }
 
+
+
     void drivetrain::driverFunctions()
     {
         // just like change out to your perfered control system
@@ -122,7 +124,7 @@ namespace subsystems
         // PID constants
         double kP = 9.0; // Proportional gain
         double kI = 0;   // Integral gain (start small)
-        double kD = 100; // Derivative gain
+        double kD = 8; // Derivative gain
 
         // convert speed percentage to max voltage limit
         double maxVoltage = (fabs(speed) / 100.0) * 12000.0;
@@ -190,6 +192,12 @@ namespace subsystems
 
         // stop the robot
         setDriveVoltage(0, 0);
+    }
+
+    void drivetrain::moveVelocity(double velocity)
+    {
+        leftDrive.move_velocity(velocity);
+        rightDrive.move_velocity(velocity);
     }
 
     //drive forward for like half a second

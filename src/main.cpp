@@ -237,16 +237,42 @@ void left_high_score()
 //and then go park
 void rightRushAuto()
 {
-    chassis.setPose(-46.323, -13.218, 0);
+    chassis.setPose(-46.323, -13.218, 180);
 
+    
+
+    drivetrain.moveVelocity(100);
+
+    pros::delay(2500);
+    drivetrain.moveVelocity(0);
+
+    chassis.turnToHeading(270, 1000);
+    pros::delay(1000);
+
+
+    matchload.setState(true);
+    intake.autoIndex();
+    pros::delay(500);
+
+    // drivetrain.moveVelocity(100);
+    // pros::delay(5000);
+
+
+
+
+
+    
+    
     //move to match loader
     //chassis.moveToPoint(-46.323, -46.323, 5000);
 
     //drivetrain.moveDistance(15, 80, 2000);
 
-    chassis.moveToPose(-46.323, -48, 180, 5000, { .forwards = true , .maxSpeed = 90 , .minSpeed=60}, false);
-    chassis.waitUntilDone();
-    pros::delay(500);
+    // chassis.moveToPose(0, -48, 180, 5000, { .forwards = true ,  .maxSpeed = 90 , .minSpeed=60}, false);
+    // // chassis.waitUntilDone();
+    // pros::delay(500);
+
+    // chassis.turnToHeading(0, 3000);
 
     // //turn to match loader
     // chassis.turnToHeading(270, 1000, {.maxSpeed = 40}, false);
@@ -330,7 +356,7 @@ void autonomous()
 void opcontrol()
 {
     //run auto first
-    autonomous();
+    //autonomous();
 
     // end anything being used in auton
     drivetrain.setBrakeMode(MOTOR_BRAKE_COAST);
@@ -348,9 +374,9 @@ void opcontrol()
         
 
         // run auto lol
-        if(Controller.get_digital(DIGITAL_DOWN)){
-            autonomous();
-        }
+        // if(Controller.get_digital(DIGITAL_DOWN)){
+        //     autonomous();
+        // }
 
         pros::delay(10);
     }

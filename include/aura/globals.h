@@ -59,8 +59,7 @@
 
 // Prenumatics ports
 
-// Park
-#define PARK 'X'
+
 
 // Matchload
 #define MATCHLOAD 'A' 
@@ -71,5 +70,4 @@
 // Hood / GATE
 #define HOOD 'B' 
 
-// Wing
-#define DESCORE 'X'
+

@@ -58,20 +58,23 @@ void initialize()
     };
     auton_selector_init_colors(auton_sel_colours);
 
-    // drivetrain.getIMU().reset();
-    // while (drivetrain.getIMU().is_calibrating()) {
-    // 	//pros::lcd::print(4,"IMU is calibrating drive is locked out");
-    // 	Controller.set_text(0, 0, "IMU calibrating...");
-    // 	//has to wait 50 to be able to change the text again
-    //     pros::delay(50);
-    // }
+    drivetrain.getIMU().reset();
+    while (drivetrain.getIMU().is_calibrating()) {
+    	Controller.set_text(0, 0, "IMU calibrating...");
+    	//has to wait 50 to be able to change the text again
+        pros::delay(50);
+    }
     // get rid of text
     // pros::lcd::clear_line(4);
+    pros::delay(50);
     Controller.clear_line(0);
 
     chassis.calibrate(true);
     chassis.setPose(0, 0, 0);
+    pros::delay(100);
 
+    pros::delay(50);
+    Controller.clear_line(0);
     // pros::Task screen_task([&]() {
     //     while (true) {
     //         //print robot location to the brain screen
@@ -178,111 +181,160 @@ void competition_initialize() {}
 ASSET(examplekillme_txt);
 ASSET(hehehe_txt);
 
-// Make like these to have diff autos to swap through
+//go grab 4 and then go park
 void left_high_score()
 {
-    chassis.setPose(63.5, -24, 270);
-    // chassis.follow(hehehe_txt, 20, 4000);
-    // chassis.turnToHeading(90, 40000, {.maxSpeed = 40},false);
-    //chassis.moveToPose(-36, -24, 270, 5000, {.maxSpeed = 95});
-    // chassis.moveToPoint(0, 0, 4000,{ .maxSpeed = 40});
-    // pros::delay(450);
-    // chassis.moveToPoint(24, 0, 3000, {.maxSpeed = 40});
+    chassis.setPose(-46.566, 14, 0);
+    //go match load first
 
-    // current go straight
-    // drivetrain.moveDistance(10, 70, 1000);
-    // pros::delay(200);
+    chassis.moveToPose(-46, 46, 0, 2000,{.forwards = true , .maxSpeed = 90 , .minSpeed=20}, false);
+    //delay to stop rocking
+    pros::delay(200);
+    //trun to the match loader
+    chassis.turnToHeading(270, 500);
 
-    // chassis.swingToHeading(90, lemlib::DriveSide::LEFT ,1000, {.maxSpeed = 40},true);
-    // drivetrain.moveDistance(-10, 70, 1000);
-    // pros::delay(200);
+    //drive to match loader
+    chassis.moveToPoint(-57, 46, 2000);
 
-    // drivetrain.moveDistance(12, 20, 2000);
-    // pros::delay(200);
+    //start intake
+    intake.autoIndex();
+    pros::delay(500);
 
-  
-    //intake.autoIndex();
+    intake.stopAuto();
 
-    //intake.autoScoreHigh();
-    //intake.autoScoreMid();
-    //intake.autoScoreLow();
 
+    //go score
+    chassis.moveToPose(-30, 46, 270, 3000, {.forwards = false});
+    intake.autoScoreHigh();
+    pros::delay(3000);
 
     
-    // descore.setState(true);
-    // pros::delay(2000);
+    // intake.stopAuto();
 
-    // descore.setState(false);
+    // //go to the middle tile
+    // chassis.moveToPose(-46, 46, 270, 2000,{.forwards = true , .maxSpeed = 90 , .minSpeed=20}, false);
 
+    // chassis.turnToHeading(135, 500);
+
+    // //drive to the balls
+    // intake.autoIndex();
+    // chassis.moveToPose(-6.063, 38.199, 45, 2000,{.forwards = true , .horizontalDrift = 10, .lead = -7, .maxSpeed = 90 , .minSpeed=20, });
+
+
+
+
+
+    //go try and score
+
+    //go park
+
+
+
+}
+
+
+//this auto will go grab 4
+//and then go park
+void rightRushAuto()
+{
+    chassis.setPose(-46.323, -13.218, 0);
+
+    //move to match loader
+    //chassis.moveToPoint(-46.323, -46.323, 5000);
+
+    //drivetrain.moveDistance(15, 80, 2000);
+
+    chassis.moveToPose(-46.323, -48, 180, 5000, { .forwards = true , .maxSpeed = 90 , .minSpeed=60}, false);
+    chassis.waitUntilDone();
+    pros::delay(500);
+
+    // //turn to match loader
+    // chassis.turnToHeading(270, 1000, {.maxSpeed = 40}, false);
+    // chassis.waitUntilDone();
+
+    // //put out match load and start intaking
     // matchload.setState(true);
-    // pros::delay(2000);
+    // intake.autoIndex();
+    // pros::delay(300);
 
+    // //go grab blocks form loader
+    // chassis.moveToPose(-60, -46, 270, 1300, {.forwards = true, .lead = 0.1, .maxSpeed = 40}, false);
+
+    // //leave match loader and go to the goal and then score
+    // chassis.moveToPose(-28, -46, 270, 2000, {.forwards = false, .maxSpeed = 95}, false);
     // matchload.setState(false);
-    // pros::delay(2000);
+    // chassis.waitUntilDone();
+    // intake.autoScoreHigh();
+    // pros::delay(1000);
 
 
+    //wait at the end of the goal for like uhhh some time 
 
+    // pros::delay(15000);
 
+    // // leave the goal and go park
+    // chassis.moveToPose(-62.33, -17, 0, 3000, {.forwards = true, .lead = 0.1, .maxSpeed = 40});
 
-
-
-
-
-
-
+    // chassis.moveToPoint(-62.33, 0, 1000);
 
 }
 
 void leftRushAuto()
 {
-    chassis.setPose(0, 0, 0);
-    drivetrain.moveDistance(24, 80, 2000);
-}
-
-void rightRushAuto()
-{
-    
 
 }
 
 void skillsAuto()
 {
-    chassis.setPose(0, 0, 0);
-    chassis.follow(hehehe_txt, 15, 6000);
+    //clear zone
+
+    //score low
+
+    //clear left match load score
+
+    //clear right match load and score
+
+    //park from left
+
 }
 
 void autonomous()
 {
 
-    switch (auton_selector_get())
-    {
-    case Auton::LEFT_HIGH_SCORE:
-        left_high_score();
-        break;
+    rightRushAuto();
 
-    case Auton::LEFT_RUSH:
-        leftRushAuto();
-        break;
+    // switch (auton_selector_get())
+    // {
+    // case Auton::LEFT_HIGH_SCORE:
+    //     
+    //     left_high_score();
+    //     break;
 
-    case Auton::RIGHT_SCORE:
-        rightRushAuto();
-        break;
+    // case Auton::RIGHT_RUSH: 
+    //     rightRushAuto();
+    //     break;
 
-    case Auton::SKILLS:
-        skillsAuto();
-        break;
+    // case Auton::RIGHT_SCORE:
+    //     leftRushAuto();
+    //     break;
 
-    default:
-        break;
-    }
+    // case Auton::SKILLS:
+    //     skillsAuto();
+    //     break;
+
+    // default:
+    //     break;
+    // }
 }
 
 void opcontrol()
 {
+    //run auto first
+    autonomous();
 
     // end anything being used in auton
     drivetrain.setBrakeMode(MOTOR_BRAKE_COAST);
-    intake.stopAuto();
+    //intake.stopAuto();
 
     while (true)
     {
@@ -293,15 +345,12 @@ void opcontrol()
         intake.driverFunctions();
         // matchloader
         matchload.driverFunctions();
-        // descore
-        descore.driverFunctions();
-        // park
-        park.driverFunctions();
+        
 
         // run auto lol
-        // if(Controller.get_digital(DIGITAL_LEFT)){
-        // autonomous();
-        // }
+        if(Controller.get_digital(DIGITAL_DOWN)){
+            autonomous();
+        }
 
         pros::delay(10);
     }

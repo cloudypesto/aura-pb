@@ -40,35 +40,48 @@ namespace subsystems
         // just like change out to your perfered control system
 
         // arcade drive code
-        int y = Controller.get_analog(ANALOG_LEFT_Y);
-        int x = Controller.get_analog(ANALOG_RIGHT_X);
-
-        int y_output = linearToCubed(y, 127, 1);
-        int x_output = linearToCubed(x, 127, 1);
-
-        int left_voltage = pctToVoltage(y_output + x_output);
-        int right_voltage = pctToVoltage(y_output - x_output);
-
-        this->setDriveVoltage(left_voltage, right_voltage);
-
-        // single stick left
-        //  int y = Controller.get_analog(ANALOG_LEFT_Y);
-        //  int x = Controller.get_analog(ANALOG_LEFT_X);
+        // int y = Controller.get_analog(ANALOG_LEFT_Y);
+        // int x = Controller.get_analog(ANALOG_RIGHT_X);
 
         // int y_output = linearToCubed(y, 127, 1);
         // int x_output = linearToCubed(x, 127, 1);
 
-        // int left_voltage  = pctToVoltage(y_output - x_output);
-        // int right_voltage = pctToVoltage(y_output + x_output);
+        // int left_voltage = pctToVoltage(y_output + x_output);
+        // int right_voltage = pctToVoltage(y_output - x_output);
 
         // this->setDriveVoltage(left_voltage, right_voltage);
 
-        // tank drive code
-        //  int left_input = Controller.get_analog(ANALOG_RIGHT_Y);
-        //  int right_input = Controller.get_analog(ANALOG_LEFT_Y);
+        // single stick left
+        // single stick (left) arcade drive
+        int forward = Controller.get_analog(ANALOG_LEFT_Y);
+        int turn    = Controller.get_analog(ANALOG_LEFT_X);
 
-        // int left_output = linearToCubed(left_input, 127, 1);
-        // int right_output = linearToCubed(right_input, 127, 1);
+        // apply your input scaling
+        int forward_scaled = linearToCubed(forward, 127, 0.5);
+        int turn_scaled    = linearToCubed(turn, 127, 0.5);
+
+        // arcade mixing
+        int left_output  = forward_scaled + turn_scaled;
+        int right_output = forward_scaled - turn_scaled;
+
+        // clamp to motor limits
+        left_output  = std::clamp(left_output,  -127, 127);
+        right_output = std::clamp(right_output, -127, 127);
+
+        // convert to voltage
+        int left_voltage  = pctToVoltage(left_output);
+        int right_voltage = pctToVoltage(right_output);
+
+        // send to drivetrain
+        this->setDriveVoltage(left_voltage, right_voltage);
+
+
+        // tank drive code
+        // int left_input = Controller.get_analog(ANALOG_LEFT_Y);
+        // int right_input = Controller.get_analog(ANALOG_RIGHT_Y);
+
+        // int left_output = linearToCubed(left_input, 127, 0.5);
+        // int right_output = linearToCubed(right_input, 127, 0.5);
 
         // int left_voltage = pctToVoltage(left_output);
         // int right_voltage = pctToVoltage(right_output);
@@ -177,6 +190,30 @@ namespace subsystems
 
         // stop the robot
         setDriveVoltage(0, 0);
+    }
+
+    //drive forward for like half a second
+    void subsystems::drivetrain::double_park(){
+
+        //create a timer to allow the robot to move forwards for a second
+
+
+        // static bool moving = false;
+        // static uint32_t startTime = 0;
+
+        // if (Controller.get_digital_new_press(DIGITAL_DOWN)) {
+        //     moving = true;
+        //     startTime = pros::millis();
+        //     leftDrive.move(60);
+        //     rightDrive.move(60);
+        // }
+
+        // if (moving && pros::millis() - startTime >= 1000) {
+        //     leftDrive.move(0);
+        //     rightDrive.move(0);
+        //     moving = false;
+        // }
+            
     }
 
 } // namespace subsystems

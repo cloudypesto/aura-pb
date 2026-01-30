@@ -82,6 +82,9 @@ namespace subsystems {
         //Movement helper functions for autonomous
         //temp functions casue like we need to be able to go stright for now
         void moveDistance(double inches, double speed, int timeout);
+
+        //drives forward for like half a second
+        void double_park();
         
         
 
@@ -131,7 +134,7 @@ namespace subsystems {
         bool lowFast = false;
 
         int32_t unjamStartTime = 0;
-        static constexpr int32_t UNJAM_TIME = 333;
+        static constexpr int32_t UNJAM_TIME = 100;
 
 
         

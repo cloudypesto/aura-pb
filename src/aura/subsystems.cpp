@@ -63,21 +63,21 @@ namespace subsystems {
         void intake::driverFunctions() {
             //toggles
             //start indexing
-            if (Controller.get_digital_new_press(DIGITAL_B)) {
+            if (Controller.get_digital_new_press(DIGITAL_L1)) {
                 indexingEnabled = !indexingEnabled;
             }
 
             
 
             //make speed for mid goals changed when down is being held
-            bool speedOverride = Controller.get_digital(DIGITAL_DOWN);
+            bool speedOverride = Controller.get_digital(DIGITAL_UP);
 
             //open the hood on its own
-            if (Controller.get_digital_new_press(DIGITAL_UP)) {
+            if (Controller.get_digital_new_press(DIGITAL_RIGHT)) {
                 hood_press_count++;
             }
             //intake on its own
-            if (Controller.get_digital_new_press(DIGITAL_A)) {
+            if (Controller.get_digital_new_press(DIGITAL_LEFT)) {
                 intake_press_count ++;
             }
 
@@ -135,7 +135,7 @@ namespace subsystems {
                     hoodState = false;          // hood closed
                     intakeLiftState = false;    // intake down
                     lower_voltage = 12000;
-                    upper_voltage = -6666;
+                    upper_voltage = -2000;
 
                     redir_voltage = 8000;
 
@@ -201,7 +201,7 @@ namespace subsystems {
         setIntakeState(
             12000, 
             8000, 
-            6666, 
+            -2000, 
             false, 
             false);            
     }
@@ -213,7 +213,7 @@ namespace subsystems {
         setIntakeState(
             12000, 
             12000, 
-            12000, 
+            -12000, 
             true, //hood open
             false);
 
@@ -241,7 +241,7 @@ namespace subsystems {
         setIntakeState(
             -12000, //goes the other direction
             -12000, //goes the other direction
-            -12000, //goes the other direction
+            12000, //goes the other direction
             false, 
             false); //lift up intake
     }
@@ -278,7 +278,7 @@ namespace subsystems {
 
         void matchload::driverFunctions()
         {
-            matchload_press_count += Controller.get_digital_new_press(DIGITAL_Y);
+            matchload_press_count += Controller.get_digital_new_press(DIGITAL_A);
 
             //pressed odd amount of times
             if(matchload_press_count % 2 != 0)
@@ -315,8 +315,8 @@ namespace subsystems {
         {
             //hold L1 to extend
             //release to retract
-            bool buttonHeld = Controller.get_digital(DIGITAL_L1);
-            setState(buttonHeld);
+            // bool buttonHeld = Controller.get_digital(DIGITAL_L1);
+            // setState(buttonHeld);
         }
 
 

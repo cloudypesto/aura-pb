@@ -58,13 +58,14 @@ void initialize()
     };
     auton_selector_init_colors(auton_sel_colours);
 
-    // drivetrain.getIMU().reset();
-    // while (drivetrain.getIMU().is_calibrating()) {
-    // 	//pros::lcd::print(4,"IMU is calibrating drive is locked out");
-    // 	Controller.set_text(0, 0, "IMU calibrating...");
-    // 	//has to wait 50 to be able to change the text again
-    //     pros::delay(50);
-    // }
+    drivetrain.getIMU().reset();
+    while (drivetrain.getIMU().is_calibrating())
+    {
+        // pros::lcd::print(4,"IMU is calibrating drive is locked out");
+        Controller.set_text(0, 0, "IMU calibrating...");
+        // has to wait 50 to be able to change the text again
+        pros::delay(50);
+    }
     // get rid of text
     // pros::lcd::clear_line(4);
     Controller.clear_line(0);
@@ -181,10 +182,37 @@ ASSET(hehehe_txt);
 // Make like these to have diff autos to swap through
 void testauto()
 {
-    chassis.setPose(63.5, -24, 270);
+    chassis.setPose(63.5, -16.5, 270);
+    descore.setState(false);
+    intake.autoIndex();
+    chassis.moveToPose(8, -42.5, 200, 5000, {.lead = 0.3, .maxSpeed = 100, .minSpeed = 20}, false);
+    matchload.setState(true);
+    pros::delay(300);
+    matchload.setState(false);
+    pros::delay(300);
+    chassis.moveToPose(24, -24, 135, 3000, {.forwards = false, .maxSpeed = 95});
+    chassis.moveToPose(48, -47, 90, 2000, {.lead = .1, .maxSpeed = 75});
+    matchload.setState(true);
+    pros::delay(700);
+    chassis.moveToPose(63, -46, 90, 1000, {.maxSpeed = 95});
+    pros::delay(950);
+    chassis.moveToPose(26, -46, 90, 3000, {.forwards = false, .maxSpeed = 95});
+    chassis.waitUntilDone();
+    chassis.setPose(26, -48, 90);
+    intake.autoScoreHigh();
+    pros::delay(2000);
+    chassis.moveToPose(62, -48, 90, 1000, {.maxSpeed = 65});
+    intake.autoScoreHigh();
+    pros::delay(3000);
+    intake.autoIndex();
+    pros::delay(3000);
+    chassis.setPose(63, -48, 90);
+    chassis.moveToPose(30, -30, 135, 4000, {.forwards = false, .maxSpeed = 95});
+    matchload.setState(false);
+
     // chassis.follow(hehehe_txt, 20, 4000);
     // chassis.turnToHeading(90, 40000, {.maxSpeed = 40},false);
-    //chassis.moveToPose(-36, -24, 270, 5000, {.maxSpeed = 95});
+    // chassis.moveToPose(-36, -24, 270, 5000, {.maxSpeed = 95});
     // chassis.moveToPoint(0, 0, 4000,{ .maxSpeed = 40});
     // pros::delay(450);
     // chassis.moveToPoint(24, 0, 3000, {.maxSpeed = 40});
@@ -200,15 +228,12 @@ void testauto()
     // drivetrain.moveDistance(12, 20, 2000);
     // pros::delay(200);
 
-  
-    //intake.autoIndex();
+    // intake.autoIndex();
 
-    //intake.autoScoreHigh();
-    //intake.autoScoreMid();
-    //intake.autoScoreLow();
+    // intake.autoScoreHigh();
+    // intake.autoScoreMid();
+    // intake.autoScoreLow();
 
-
-    
     // descore.setState(true);
     // pros::delay(2000);
 
@@ -219,54 +244,87 @@ void testauto()
 
     // matchload.setState(false);
     // pros::delay(2000);
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
-void leftRushAuto()
+void RushAuto()
 {
-    chassis.setPose(0, 0, 0);
-    drivetrain.moveDistance(24, 80, 2000);
-}
-
-void rightRushAuto()
-{
-    chassis.setPose(-47, -12, 120);
+    chassis.setPose(-63.5, -16.5, 90);
     intake.autoIndex();
 
-    chassis.moveToPose(-6, -41, 120, 2000, {.horizontalDrift = 2,  .lead = 0.3, .maxSpeed = 50});
+    // ball rush
+    chassis.moveToPose(-7.5, -42.5, 150, 5000, {.lead = 0.4, .minSpeed = 45}, false);
+    chassis.waitUntilDone();
+    pros::delay(500);
 
-    //put the match load down
+    // back up to -48,-48 facing 45
+    chassis.moveToPose(-48, -56, 45, 4000, {.forwards = false, .lead = 0.6, .maxSpeed = 95,.minSpeed=30}, false);
+    intake.stopAuto();
+    // chassis.waitUntil(10);
+    // matchload.setState(true);
+    // chassis.waitUntilDone();
+
+
+    pros::delay(500);
+    chassis.turnToHeading(270, 1000, {}, false);
     matchload.setState(true);
     pros::delay(500);
 
-    //go to match loader
-    chassis.moveToPose(-56.752, -46, 270, 3000, {.horizontalDrift = 2,  .lead = 0.3, .maxSpeed = 50});
+    intake.autoIndex();
+    chassis.moveToPose(-67, -56.5,270, 1000, {.maxSpeed = 50, .minSpeed = 40}, false);
+    chassis.waitUntilDone();
+    pros::delay(900); // wait to match load
+    intake.stopAuto();
+
+
+    chassis.moveToPose(-28, -57, 270,1000, {.forwards = false, .maxSpeed = 95}, false);
+    chassis.waitUntilDone();
+    intake.autoScoreHigh();
+    chassis.setPose(-28,-48,270);
+    pros::delay(2500);
+    
+    chassis.moveToPoint(-67, -48,1000, {.maxSpeed = 50, .minSpeed = 40}, false);
+    intake.autoIndex();
+    pros::delay(1400);
+
+    intake.stopAuto();
+    chassis.moveToPose(-24,-24, 225,3000, {.forwards = false,  .maxSpeed = 95}, false);
     matchload.setState(false);
+    chassis.waitUntilDone();
+    pros::delay(500);
 
-    //turn to be aligned with the loader
-    chassis.turnToHeading(270, 500);
-    chassis.moveToPoint(-60, -46, 500);
+
+    
+
+}
+
+void WingAuto()
+{
+    chassis.setPose(-50, 8, 0);
+    chassis.moveToPose(-48,48,0,5000,{.forwards = true,.maxSpeed = 90,.minSpeed=20},false);
+    chassis.waitUntilDone();
+    pros::delay(500);
+    chassis.turnToHeading(270,1000,{.maxSpeed = 30},false);
+    chassis.waitUntilDone();
     matchload.setState(true);
-
-
-    //wait at goal for one second to match load
+    intake.autoIndex();
+    pros::delay(300);
+    chassis.moveToPose(-65,50,270,1300,{.forwards=true,.lead=0.1,.maxSpeed=40},false);
+    chassis.moveToPose(-28,50,270,2000,{.forwards=false,.maxSpeed=95},false);
+    matchload.setState(false);
+    chassis.waitUntilDone();
+    intake.autoScoreHigh();
+    pros::delay(1000);
+    chassis.swingToHeading(90,lemlib::DriveSide::RIGHT,2000,{.maxSpeed=60},false);
+    pros::delay(100);
+    chassis.turnToHeading(255,1000,{.direction=lemlib::AngularDirection::CCW_COUNTERCLOCKWISE,.maxSpeed=90},false);
+    intake.stopAuto();
+    chassis.moveToPose(-12,58.5,270,3000,{.forwards=false,.maxSpeed=95},false);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     pros::delay(1000);
 
-    chassis.moveToPose(-28, 47, 270, 2000, {.forwards = false,  .horizontalDrift = 2,  .lead = 0.3,.maxSpeed = 50});
 
-    intake.autoScoreHigh();
 
+    
 }
 
 void skillsAuto()
@@ -277,37 +335,38 @@ void skillsAuto()
 
 void autonomous()
 {
+    RushAuto();
+    // WingAuto();
+    // switch (auton_selector_get())
+    // {
+    // case Auton::TEST:
+    //     testauto();
+    //     break;
 
-    switch (auton_selector_get())
-    {
-    case Auton::TEST:
-        testauto();
-        break;
+    // case Auton::LEFT_RUSH:
+    //     RushAuto();
+    //     break;
 
-    case Auton::LEFT_RUSH:
-        leftRushAuto();
-        break;
+    // case Auton::RIGHT_RUSH:
+    //     rightRushAuto();
+    //     break;
 
-    case Auton::RIGHT_RUSH:
-        rightRushAuto();
-        break;
+    // case Auton::SKILLS:
+    //     skillsAuto();
+    //     break;
 
-    case Auton::SKILLS:
-        skillsAuto();
-        break;
-
-    default:
-        break;
-    }
+    // default:
+    //     break;
+    // }
 }
 
 void opcontrol()
 {
-
-    // end anything being used in auton
+    autonomous();
+    // // end anything being used in auton
     drivetrain.setBrakeMode(MOTOR_BRAKE_COAST);
-    intake.stopAuto();
-
+    // intake.stopAuto();
+    pros::delay(500);
     while (true)
     {
         // run all the driver functions and anything that needs to be constantly running
@@ -321,11 +380,6 @@ void opcontrol()
         descore.driverFunctions();
         // park
         park.driverFunctions();
-
-        // run auto lol
-         if(Controller.get_digital(DIGITAL_LEFT)){
-         	autonomous();
-         }
 
         pros::delay(10);
     }

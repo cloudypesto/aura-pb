@@ -161,7 +161,7 @@ namespace subsystems {
                     hoodState = true;           // hood OPEN
                     intakeLiftState = false;
                     lower_voltage = 12000;
-                    redir_voltage = 12000;
+                    redir_voltage = 10000;
                     upper_voltage = 12000;      // strong index
                     break;
 
@@ -213,7 +213,7 @@ namespace subsystems {
         setIntakeState(
             12000, 
             12000, 
-            12000, 
+            7500, 
             true, //hood open
             false);
 

@@ -43,8 +43,8 @@ namespace subsystems
         int y = Controller.get_analog(ANALOG_LEFT_Y);
         int x = Controller.get_analog(ANALOG_RIGHT_X);
 
-        int y_output = linearToCubed(y, 127, 1);
-        int x_output = linearToCubed(x, 127, 1);
+        int y_output = linearToCubed(y, 127, 0.5);
+        int x_output = linearToCubed(x, 127, 0.5);
 
         int left_voltage = pctToVoltage(y_output + x_output);
         int right_voltage = pctToVoltage(y_output - x_output);

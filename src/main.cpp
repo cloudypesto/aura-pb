@@ -314,9 +314,19 @@ void left_high_score()
 //and then go park
 void rightRushAuto()
 {
-    chassis.setPose(-46.323, -13.218, 180);
+    chassis.setPose(0, 0, 180);
 
-    // drivetrain.setDriveVoltage(100, 100);
+
+    drivetrain.moveVelocity(100);
+
+    pros::delay(2400);
+    drivetrain.moveVelocity(0);
+
+    chassis.turnToHeading(270, 1000);
+    pros::delay(1000);
+
+
+
 
 
     // pros::delay(2500);
@@ -339,25 +349,26 @@ void rightRushAuto()
     
     //move to match loader
 
-    chassis.moveToPose(0, -48, 180, 5000, { .forwards = true ,  .maxSpeed = 90 , .minSpeed=60}, false);
+    // chassis.moveToPose(46, -48, 180, 5000, { .forwards = true ,  .maxSpeed = 90 , .minSpeed=60}, false);
+    // // chassis.waitUntilDone();
+    // pros::delay(500);
+
+    // //chassis.turnToHeading(0, 3000);
+
+    // //turn to match loader
+    // chassis.turnToHeading(270, 1000, {.maxSpeed = 40}, false);
     // chassis.waitUntilDone();
-    pros::delay(500);
-
-    //chassis.turnToHeading(0, 3000);
-
-    //turn to match loader
-    chassis.turnToHeading(270, 1000, {.maxSpeed = 40}, false);
-    chassis.waitUntilDone();
 
     // //put out match load and start intaking
     // matchload.setState(true);
     // intake.autoIndex();
     // pros::delay(300);
 
-    // //go grab blocks form loader
+    // // //go grab blocks form loader
     // chassis.moveToPose(-60, -46, 270, 1300, {.forwards = true, .lead = 0.1, .maxSpeed = 40}, false);
+    // pros::delay(500);
 
-    // //leave match loader and go to the goal and then score
+    // // //leave match loader and go to the goal and then score
     // chassis.moveToPose(-28, -46, 270, 2000, {.forwards = false, .maxSpeed = 95}, false);
     // matchload.setState(false);
     // chassis.waitUntilDone();
@@ -365,7 +376,7 @@ void rightRushAuto()
     // pros::delay(1000);
 
 
-    //wait at the end of the goal for like uhhh some time 
+    // //wait at the end of the goal for like uhhh some time 
 
     // pros::delay(15000);
 
@@ -383,21 +394,15 @@ void leftRushAuto()
 
 void skillsAuto()
 {
-    //clear zone
-
-    //score low
-
-    //clear left match load score
-
-    //clear right match load and score
-
-    //park from left
-
+    intake.autoIndex();
+    pros::delay(1000);
+    intake.stopAuto();
 }
 
 void autonomous()
 {
 
+    //skillsAuto();
     rightRushAuto();
 
     // switch (auton_selector_get())

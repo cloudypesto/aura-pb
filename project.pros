@@ -638,7 +638,7 @@
       "slot": 1,
       "description": "Rico aura code",
       "icon": "pizza",
-      "after": "run"
+      "after": "screen"
     },
     "use_early_access": false
   }

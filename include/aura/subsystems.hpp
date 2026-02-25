@@ -35,6 +35,7 @@ namespace subsystems {
         //the rest get added to the group after set up
         pros::MotorGroup leftDrive = pros::MotorGroup(left_1);
         pros::MotorGroup rightDrive = pros::MotorGroup(right_1);
+        
 
         //set up encoder tracking
         pros::adi::Encoder XTrackingEncoder;
@@ -53,6 +54,8 @@ namespace subsystems {
         //motor gorup getters
         pros::MotorGroup& getLeftDrive() { return leftDrive; }
         pros::MotorGroup& getRightDrive() { return rightDrive; }
+        
+
 
         //tracking wheels getters
         pros::adi::Encoder& getXTrackingEncoder() { return XTrackingEncoder; }
@@ -82,6 +85,11 @@ namespace subsystems {
         //Movement helper functions for autonomous
         //temp functions casue like we need to be able to go stright for now
         void moveDistance(double inches, double speed, int timeout);
+
+        //drives forward for like half a second
+        void double_park();
+
+        void moveVelocity(double velocity);
         
         
 
@@ -131,7 +139,7 @@ namespace subsystems {
         bool lowFast = false;
 
         int32_t unjamStartTime = 0;
-        static constexpr int32_t UNJAM_TIME = 333;
+        static constexpr int32_t UNJAM_TIME = 100;
 
 
         
@@ -231,6 +239,9 @@ namespace subsystems {
 
 
     };
+
+
+    
 
 
 }

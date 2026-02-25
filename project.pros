@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "joe cool",
+    "project_name": "Rico",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -635,7 +635,10 @@
       }
     },
     "upload_options": {
-      "slot": 1
+      "slot": 1,
+      "description": "Rico aura code",
+      "icon": "pizza",
+      "after": "screen"
     },
     "use_early_access": false
   }

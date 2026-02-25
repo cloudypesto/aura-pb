@@ -28,15 +28,15 @@
 
 // Motor ports
 // left
-#define LEFT_MOTOR_1 -14
-#define LEFT_MOTOR_2 -19
-#define LEFT_MOTOR_3 11
-#define LEFT_MOTOR_4 -17
+#define LEFT_MOTOR_1 -11
+#define LEFT_MOTOR_2 -12
+#define LEFT_MOTOR_3 13
+#define LEFT_MOTOR_4 -14
 
 // right
-#define RIGHT_MOTOR_1 18
-#define RIGHT_MOTOR_2 13
-#define RIGHT_MOTOR_3 -12
+#define RIGHT_MOTOR_1 17
+#define RIGHT_MOTOR_2 16
+#define RIGHT_MOTOR_3 -18
 #define RIGHT_MOTOR_4 20
 
 // encoding ports (currently not used)
@@ -46,30 +46,28 @@
 //  #define Y_ENCODER_BOTTOM 'D'
 
 // imu ports
-#define IMU1 3
+#define IMU1 15
 
 // Subsystems Motor ports
 
 // set up so that they are all going up by default
 // Intake
-#define INTAKE_TOP_1 -2
-#define INTAKE_REDIR 5
-#define INTAKE_BOTTOM_1 -15 // left
-#define INTAKE_BOTTOM_2 6   // right
+#define INTAKE_TOP_1 19
+#define INTAKE_REDIR 10
+#define INTAKE_BOTTOM_1 -1 // left
+#define INTAKE_BOTTOM_2 9  // right
 
 // Prenumatics ports
 
-// Park
-#define PARK 'X'
+
 
 // Matchload
-#define MATCHLOAD 'D'
+#define MATCHLOAD 'A' 
 
 // Intake
-#define INAKE 'C'
+#define INAKE 'C' 
 
 // Hood / GATE
-#define HOOD 'A'
+#define HOOD 'B' 
 
-// Wing
-#define DESCORE 'B'
+

@@ -3,7 +3,7 @@
 
 double linearToCubed(double input, double maxInput, double k)
 {
-    return k * (pow(input, 3) / pow(maxInput, 2));
+    return k * (pow(input, 3) / pow(maxInput, 2)) + ( (1 -  k )* input);
 }
 
 double pctToVoltage(double input)

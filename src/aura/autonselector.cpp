@@ -43,13 +43,13 @@ static constexpr int AUTON_COUNT = 5;
 
 static const char* auton_names[AUTON_COUNT] = {
     "NONE",
-    "TEST AUTO",
-    "LEFT RUSH",
+    "LEFT HIGH SCORE",
     "RIGHT RUSH",
+    "LEFT ",
     "SKILLS"
 };
 
-static Auton selected_auton = Auton::TEST;
+static Auton selected_auton = Auton::LEFT_HIGH_SCORE;
 static int selected_index = 1;
 
 static lv_obj_t* auton_screen = nullptr;

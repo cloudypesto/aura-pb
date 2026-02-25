@@ -5,6 +5,7 @@
 
 #include "aura/lemlib.hpp"
 #include "lemlib/asset.hpp"
+#include "lemlib/api.hpp"
 #include "liblvgl/llemu.hpp"
 #include "pros/misc.h"
 #include "pros/misc.hpp"
@@ -12,7 +13,12 @@
 
 #include "aura/autonselector.hpp"
 
+#include "aura/moveStraight.hpp" //allows for custom move stright command
+
 // create the drive train
+
+//making sure the drive is created first idk dog
+
 subsystems::drivetrain drivetrain = subsystems::drivetrain(LEFT_MOTOR_1,
                                                            LEFT_MOTOR_2,
                                                            LEFT_MOTOR_3,
@@ -21,13 +27,102 @@ subsystems::drivetrain drivetrain = subsystems::drivetrain(LEFT_MOTOR_1,
                                                            RIGHT_MOTOR_2,
                                                            RIGHT_MOTOR_3,
                                                            RIGHT_MOTOR_4,
-                                                           'A',
-                                                           'B',
-                                                           'C',
-                                                           'D',
+                                                           'X',
+                                                           'X',
+                                                           'X',
+                                                           'X',
                                                            IMU1);
 
+
+
+
+//creating lemlib stuff to fix hopefully
+//set up the tracking wheels
+// lemlib::TrackingWheel verticalWheel(
+//     &drivetrain.getYTrackingEncoder(),
+//     TRACKING_WHEEL_DIAMETER,
+//     VERTICAL_OFFSET
+// );
+// lemlib::TrackingWheel horizontalWheel(
+//     &drivetrain.getXTrackingEncoder(),
+//     TRACKING_WHEEL_DIAMETER, 
+//     HORIZONTAL_OFFSET
+// );
+
+// //apply our drive train to lemlib
+// lemlib::Drivetrain drivetrainConfig {
+//     &drivetrain.getLeftDrive(),
+//     &drivetrain.getRightDrive(),
+//     TRACKWIDTH,        
+//     DRIVE_WHEEL_DIAMETER,
+//     600,                
+//     8 //horizontalDrift is 2
+//     //traction wheels horizontalDrift would be 8
+// };
+
+
+// //set up the odom sensors we currently have
+// //on the bot i have rn we have no odom pods so setting them to null pointer
+
+
+// lemlib::OdomSensors sensors {
+//     // &verticalWheel,
+//     // nullptr,                //second vertical wheel
+//     // &horizontalWheel,
+//     // nullptr,              //second horizontal wheel
+//     // &drivetrain.getIMU()  
+
+//     //set to null pointer untill the odom is actually added
+//     nullptr,
+//     nullptr,               
+//     nullptr,
+//     nullptr,              
+//     &drivetrain.getIMU()          //IMU
+// };
+
+// //PID controllers
+// //Linear
+// lemlib::ControllerSettings linearController{
+//     8,  // kP
+//     0,   // kI
+//     8,   // kD
+//     0,   // anti-windup
+//     1,   // small error
+//     90, // small timeout
+//     5,   // large error
+//     100, // large timeout
+//     20   //
+// };
+
+// // Angular
+// lemlib::ControllerSettings angularController{
+//     2.2,  // proportional gain (kP)
+//     0,  // integral gain (kI)
+//     15, // derivative gain (kD)
+//     0,  // anti windup
+//     1,  // small error range, in inches
+//     90,  // small error range timeout, in milliseconds
+//     3,  // large error range, in inches
+//     500,  // large error range timeout, in milliseconds
+//     0   // maximum acceleration (slew)
+// };
+
+
+
+// // CHASSIS (THIS IS WHAT AUTON USES RATHER THEN THE NORMAL DRIVETRAIN)
+// lemlib::Chassis chassis(
+//     drivetrainConfig,
+//     linearController,
+//     angularController,
+//     sensors
+// );
+
+
 // create other sub systems
+
+
+
+
 
 // set up intake
 subsystems::intake intake = subsystems::intake(INTAKE_TOP_1,
@@ -40,48 +135,35 @@ subsystems::intake intake = subsystems::intake(INTAKE_TOP_1,
 // set up match load
 subsystems::matchload matchload = subsystems::matchload(MATCHLOAD);
 
-// set up descore
-subsystems::descore descore = subsystems::descore(DESCORE);
-
-// set up park
-subsystems::park park = subsystems::park(PARK);
 
 void initialize()
 {
 
     AutonColors auton_sel_colours = {
-        .bg_color = lv_color_hex(0x000000),         // black
-        .btn_normal = lv_color_hex(0xb35ee0),       // pruble
+        .bg_color = lv_color_hex(0x826082),         // black
+        .btn_normal = lv_color_hex(0xd692c6),       // bink
         .btn_selected = lv_color_hex(0x20c418),     // geen
         .btn_text_normal = lv_color_hex(0xffffff),  // White
         .btn_text_selected = lv_color_hex(0x000000) // Black
     };
     auton_selector_init_colors(auton_sel_colours);
 
-    // drivetrain.getIMU().reset();
-    // while (drivetrain.getIMU().is_calibrating()) {
-    // 	//pros::lcd::print(4,"IMU is calibrating drive is locked out");
-    // 	Controller.set_text(0, 0, "IMU calibrating...");
-    // 	//has to wait 50 to be able to change the text again
-    //     pros::delay(50);
-    // }
+    drivetrain.getIMU().reset();
+    while (drivetrain.getIMU().is_calibrating()) {
+    	Controller.set_text(0, 0, "IMU calibrating...");
+    	//has to wait 50 to be able to change the text again
+        pros::delay(50);
+    }
     // get rid of text
     // pros::lcd::clear_line(4);
+    pros::delay(50);
     Controller.clear_line(0);
 
     chassis.calibrate(true);
     chassis.setPose(0, 0, 0);
+    pros::delay(100);
 
-    // pros::Task screen_task([&]() {
-    //     while (true) {
-    //         //print robot location to the brain screen
-    //         pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-    //         pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-    //         pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-    //         //delay to save resources
-    //         pros::delay(200);
-    //     }
-    // });
+   
 }
 
 void disabled() {}
@@ -178,135 +260,191 @@ void competition_initialize() {}
 ASSET(examplekillme_txt);
 ASSET(hehehe_txt);
 
-// Make like these to have diff autos to swap through
-void testauto()
+//go grab 4 and then go park
+void left_high_score()
 {
-    chassis.setPose(63.5, -24, 270);
-    // chassis.follow(hehehe_txt, 20, 4000);
-    // chassis.turnToHeading(90, 40000, {.maxSpeed = 40},false);
-    //chassis.moveToPose(-36, -24, 270, 5000, {.maxSpeed = 95});
-    // chassis.moveToPoint(0, 0, 4000,{ .maxSpeed = 40});
-    // pros::delay(450);
-    // chassis.moveToPoint(24, 0, 3000, {.maxSpeed = 40});
+    chassis.setPose(-46.566, 14, 0);
+    //go match load first
 
-    // current go straight
-    // drivetrain.moveDistance(10, 70, 1000);
-    // pros::delay(200);
+    chassis.moveToPose(-46, 46, 0, 2000,{.forwards = true , .maxSpeed = 90 , .minSpeed=20}, false);
+    //delay to stop rocking
+    pros::delay(200);
+    //trun to the match loader
+    chassis.turnToHeading(270, 500);
 
-    // chassis.swingToHeading(90, lemlib::DriveSide::LEFT ,1000, {.maxSpeed = 40},true);
-    // drivetrain.moveDistance(-10, 70, 1000);
-    // pros::delay(200);
+    //drive to match loader
+    chassis.moveToPoint(-57, 46, 2000);
 
-    // drivetrain.moveDistance(12, 20, 2000);
-    // pros::delay(200);
+    //start intake
+    intake.autoIndex();
+    pros::delay(500);
 
-  
-    //intake.autoIndex();
+    intake.stopAuto();
 
-    //intake.autoScoreHigh();
-    //intake.autoScoreMid();
-    //intake.autoScoreLow();
+
+    //go score
+    chassis.moveToPose(-30, 46, 270, 3000, {.forwards = false});
+    intake.autoScoreHigh();
+    pros::delay(3000);
+
+
+    moveStraight(7);
+
+    
+    // intake.stopAuto();
+
+    // //go to the middle tile
+    // chassis.moveToPose(-46, 46, 270, 2000,{.forwards = true , .maxSpeed = 90 , .minSpeed=20}, false);
+
+    // chassis.turnToHeading(135, 500);
+
+    // //drive to the balls
+    // intake.autoIndex();
+    // chassis.moveToPose(-6.063, 38.199, 45, 2000,{.forwards = true , .horizontalDrift = 10, .lead = -7, .maxSpeed = 90 , .minSpeed=20, });
+
+
+
+
+
+    //go try and score
+
+    //go park
+
+
+
+}
+
+
+//this auto will go grab 4
+//and then go park
+void rightRushAuto()
+{
+    chassis.setPose(0, 0, 180);
+
+
+    drivetrain.moveVelocity(100);
+
+    pros::delay(2400);
+    drivetrain.moveVelocity(0);
+
+    chassis.turnToHeading(270, 1000);
+    pros::delay(1000);
+
+
+
+
+
+    // pros::delay(2500);
+    // drivetrain.setDriveVoltage(0, 0);
+
+
+    // chassis.turnToHeading(270, 1000);
+    // pros::delay(1000);
+
+
+    // matchload.setState(true);
+    // intake.autoIndex();
+    // pros::delay(500);
+
+    // drivetrain.setDriveVoltage(100, 100);
+    // pros::delay(5000);
 
 
     
-    // descore.setState(true);
-    // pros::delay(2000);
+    
+    //move to match loader
 
-    // descore.setState(false);
+    // chassis.moveToPose(46, -48, 180, 5000, { .forwards = true ,  .maxSpeed = 90 , .minSpeed=60}, false);
+    // // chassis.waitUntilDone();
+    // pros::delay(500);
 
+    // //chassis.turnToHeading(0, 3000);
+
+    // //turn to match loader
+    // chassis.turnToHeading(270, 1000, {.maxSpeed = 40}, false);
+    // chassis.waitUntilDone();
+
+    // //put out match load and start intaking
     // matchload.setState(true);
-    // pros::delay(2000);
+    // intake.autoIndex();
+    // pros::delay(300);
 
+    // // //go grab blocks form loader
+    // chassis.moveToPose(-60, -46, 270, 1300, {.forwards = true, .lead = 0.1, .maxSpeed = 40}, false);
+    // pros::delay(500);
+
+    // // //leave match loader and go to the goal and then score
+    // chassis.moveToPose(-28, -46, 270, 2000, {.forwards = false, .maxSpeed = 95}, false);
     // matchload.setState(false);
-    // pros::delay(2000);
+    // chassis.waitUntilDone();
+    // intake.autoScoreHigh();
+    // pros::delay(1000);
 
 
+    // //wait at the end of the goal for like uhhh some time 
 
+    // pros::delay(15000);
 
+    // // leave the goal and go park
+    // chassis.moveToPose(-62.33, -17, 0, 3000, {.forwards = true, .lead = 0.1, .maxSpeed = 40});
 
-
-
-
-
-
-
+    // chassis.moveToPoint(-62.33, 0, 1000);
 
 }
 
 void leftRushAuto()
 {
-    chassis.setPose(0, 0, 0);
-    drivetrain.moveDistance(24, 80, 2000);
-}
-
-void rightRushAuto()
-{
-    chassis.setPose(-47, -12, 120);
-    intake.autoIndex();
-
-    chassis.moveToPose(-6, -41, 120, 2000, {.horizontalDrift = 2,  .lead = 0.3, .maxSpeed = 50});
-
-    //put the match load down
-    matchload.setState(true);
-    pros::delay(500);
-
-    //go to match loader
-    chassis.moveToPose(-56.752, -46, 270, 3000, {.horizontalDrift = 2,  .lead = 0.3, .maxSpeed = 50});
-    matchload.setState(false);
-
-    //turn to be aligned with the loader
-    chassis.turnToHeading(270, 500);
-    chassis.moveToPoint(-60, -46, 500);
-    matchload.setState(true);
-
-
-    //wait at goal for one second to match load
-    pros::delay(1000);
-
-    chassis.moveToPose(-28, 47, 270, 2000, {.forwards = false,  .horizontalDrift = 2,  .lead = 0.3,.maxSpeed = 50});
-
-    intake.autoScoreHigh();
 
 }
 
 void skillsAuto()
 {
-    chassis.setPose(0, 0, 0);
-    chassis.follow(hehehe_txt, 15, 6000);
+    intake.autoIndex();
+    pros::delay(1000);
+    intake.stopAuto();
 }
 
 void autonomous()
 {
 
-    switch (auton_selector_get())
-    {
-    case Auton::TEST:
-        testauto();
-        break;
+    //skillsAuto();
+    rightRushAuto();
 
-    case Auton::LEFT_RUSH:
-        leftRushAuto();
-        break;
+    // switch (auton_selector_get())
+    // {
+    // case Auton::LEFT_HIGH_SCORE:
+    //     
+    //     left_high_score();
+    //     break;
 
-    case Auton::RIGHT_RUSH:
-        rightRushAuto();
-        break;
+    // case Auton::RIGHT_RUSH: 
+    //     rightRushAuto();
+    //     break;
 
-    case Auton::SKILLS:
-        skillsAuto();
-        break;
+    // case Auton::RIGHT_SCORE:
+    //     leftRushAuto();
+    //     break;
 
-    default:
-        break;
-    }
+    // case Auton::SKILLS:
+    //     skillsAuto();
+    //     break;
+
+    // default:
+    //     break;
+    // }
 }
 
 void opcontrol()
 {
+    //run auto first
+    //autonomous();
 
     // end anything being used in auton
     drivetrain.setBrakeMode(MOTOR_BRAKE_COAST);
-    intake.stopAuto();
+    //intake.stopAuto();
+
+    //idk they just have this
+    pros::delay(500);
 
     while (true)
     {
@@ -317,15 +455,12 @@ void opcontrol()
         intake.driverFunctions();
         // matchloader
         matchload.driverFunctions();
-        // descore
-        descore.driverFunctions();
-        // park
-        park.driverFunctions();
+
 
         // run auto lol
-         if(Controller.get_digital(DIGITAL_LEFT)){
-         	autonomous();
-         }
+        // if(Controller.get_digital(DIGITAL_DOWN)){
+        //     autonomous();
+        // }
 
         pros::delay(10);
     }

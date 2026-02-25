@@ -13,6 +13,8 @@
 
 #include "aura/autonselector.hpp"
 
+#include "aura/moveStraight.hpp" //allows for custom move stright command
+
 // create the drive train
 
 //making sure the drive is created first idk dog
@@ -285,6 +287,9 @@ void left_high_score()
     intake.autoScoreHigh();
     pros::delay(3000);
 
+
+    moveStraight(7);
+
     
     // intake.stopAuto();
 
@@ -450,7 +455,7 @@ void opcontrol()
         intake.driverFunctions();
         // matchloader
         matchload.driverFunctions();
-        
+
 
         // run auto lol
         // if(Controller.get_digital(DIGITAL_DOWN)){

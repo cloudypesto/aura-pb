@@ -7,8 +7,6 @@
 extern lemlib::Chassis chassis;
 
 
-//I could like put this in a name space if i was planing on adding more then just this but fuck that
-
 void moveStraight(double distance, int timeout, float maxSpeed) {
 
     //get the current position

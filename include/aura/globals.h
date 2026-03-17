@@ -1,17 +1,18 @@
 #pragma once
 
 /**
- * This is the File where all of the globals are set up
- * created to help simplify changing commonly used numbers and information
- * use negative to flip the port
- * Contains:
- *   - Drive Train
- *       - Wheel Sizes
- *       - Any sensor ports
- *       - Ports used
- *   - Any other subsystems Motor ports
- *   - Prenumatics ports
- */
+ 
+This is the File where all of the globals are set up
+created to help simplify changing commonly used numbers and information
+use negative to flip the port
+Contains:
+Drive Train
+Wheel Sizes
+Any sensor ports
+Ports used
+Any other subsystems Motor ports
+Prenumatics ports
+*/
 
 // Drive Train
 #define DRIVE_WHEEL_DIAMETER 2.75
@@ -29,7 +30,7 @@
 // Motor ports
 // left
 #define LEFT_MOTOR_1 -11
-#define LEFT_MOTOR_2 -12
+#define LEFT_MOTOR_2 -3
 #define LEFT_MOTOR_3 13
 #define LEFT_MOTOR_4 -14
 
@@ -68,6 +69,4 @@
 #define INAKE 'C' 
 
 // Hood / GATE
-#define HOOD 'B' 
-
-
+#define HOOD 'B'

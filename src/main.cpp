@@ -322,14 +322,7 @@ void rightRushAuto()
     chassis.setPose(0, 0, 180);
 
 
-    drivetrain.moveVelocity(100);
-
-    pros::delay(2400);
-    drivetrain.moveVelocity(0);
-
-    chassis.turnToHeading(270, 1000);
-    pros::delay(1000);
-
+    moveStraight(12,1000,50);
 
 
 
